@@ -72,7 +72,7 @@ footer {
 	font-size: 14px;
 }
 
-footer a {
+footer a, footer a:hover {
 	text-decoration: none;
 	color: #ffffff;
 }
