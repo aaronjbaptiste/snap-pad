@@ -3,8 +3,99 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Snap Pad</title>
+
+		<style>
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+				width: 100%;
+			}
+
+			body {
+				background-color: #d83060;
+			}
+
+			header, footer, #container {
+				width: 100%;
+			}
+
+			header {
+				height: 80px;
+				background-color: #ffffff;
+			}
+
+			#logo {
+				position: relative;
+				top: 9px;
+				left: 24px;
+				float: left;
+			}
+
+			#name {
+				font-size: 34px;
+				margin-bottom: 2px;
+				display: block;
+			}
+
+			#slogan {
+				font-size: 14px;
+				float: left;
+				font-style: italic;
+			}
+
+			#container {
+				width: 100%;	
+				height: 300px;
+				top: 50%;
+				margin-top: -150px;
+				position: absolute;
+			}
+
+			#drop-area {
+				width: 620px;	
+				height: 300px;
+				margin: 0 auto;
+				text-align: center;
+				font-size: 24px;
+				color: #ffffff;
+				background-color: #a6274b;
+				border: dashed 3px #43252d;
+			}
+
+			#drop-area span {
+				top: 50%;
+				margin-top: -13px;
+				height: 26px;
+				position: relative;
+				display: block;
+			}
+
+			footer {
+				bottom: 0;
+				height: 50px;
+				background-color: #3498db;
+				position: absolute;
+				color: #ffffff;
+				text-align: center;
+				padding: 15px;
+				box-sizing: border-box;
+				font-size: 14px;
+			}
+		</style>
 	</head>
 	<body>
-		starting up...
+		<header>
+			<div id="logo">
+				<span id="name">Snap Pad</span>
+				<span id="slogan">Share and annotate images with anyone, in real-time, for free.</span>
+			</div>
+		</header>
+		<div id="container">
+			<div id="drop-area">
+				<span>Click to upload, paste or drop an image</span>
+			</div>
+		</div>
+		<footer>copyright @aaronjbaptiste</footer>
 	</body>
 </html>
