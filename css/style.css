@@ -1,0 +1,92 @@
+html, body {
+	font-family: 'Lato', sans-serif;
+}
+
+body {
+	background-color: #d83060;
+	min-width: 320px;
+	min-height: 370px;
+}
+
+header, footer {
+	width: 100%;
+}
+
+header {
+	height: auto;
+	background-color: #ffffff;
+	padding-top: 9px;
+}
+
+#name {
+	position: relative;
+	margin: 0 24px;
+	font-size: 34px;
+	display: block;
+	font-family: 'Lobster', cursive;
+}
+
+#slogan {
+	position: relative;
+	margin: -2px 24px 0px 24px;
+	padding-bottom: 5px;
+	font-size: 15px;
+	font-style: italic;
+	white-space: nowrap;
+}
+
+#main.container {
+	padding: 60px;
+	background-color: #d83060;
+}
+
+#drop-area {
+	max-width: 620px;	
+	width: 100%;
+	height: 350px;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 24px;
+	color: #ffffff;
+	background-color: #a6274b;
+	border: dashed 3px #43252d;
+	display: table; 
+	padding: 10px;
+}
+
+#drop-area span {
+	vertical-align: middle; 
+  	text-align: center; 
+	display: table-cell;
+}
+
+footer {
+	bottom: 0;
+	height: 50px;
+	background-color: #3498db;
+	position: absolute;
+	color: #ffffff;
+	text-align: center;
+	padding: 16px;
+	box-sizing: border-box;
+	font-size: 14px;
+}
+
+footer a {
+	text-decoration: none;
+	color: #ffffff;
+}
+
+@media only screen and (max-height : 600px) {
+	#drop-area {
+		height: 240px;
+	}
+
+	footer {
+		position: static;
+	}
+
+	.page {
+		min-height: 470px;
+	}
+}
