@@ -33,7 +33,7 @@ Install snap-pad
 cd snap-pad && composer install
 ```
 
-Make sure your web document root allows read and write access to apache. See (Laravel's Installation docs)[http://laravel.com/docs/installation] for more details
+Make sure your web document root allows read and write access to apache. See [Laravel's Installation docs](http://laravel.com/docs/installation) for more details
 
 
 Questions?
