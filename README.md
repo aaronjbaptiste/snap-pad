@@ -6,6 +6,7 @@ Share and annotate images with anyone in real-time
 Todo
 ----
 
+ * switch over to backbone (branch)? - it will take a while to get up to speed with ember
  * setup somewhere on a domain
 
 How to build
