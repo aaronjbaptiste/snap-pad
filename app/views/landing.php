@@ -6,7 +6,7 @@
 
         <title>Snap Pad</title>
 
-        <link href='http://fonts.googleapis.com/css?family=Lato|Lobster' rel='stylesheet' type='text/css'>
+        <!-- <link href='http://fonts.googleapis.com/css?family=Lato|Lobster' rel='stylesheet' type='text/css'> -->
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
@@ -14,7 +14,7 @@
           <span id="name">Snap Pad</span>
           <div id="slogan">Share and annotate images with anyone, <wbr>in real-time, for free.</div>
         </header>
-        <div class="page">
+        <div id="page">
           <img id="image-pad" src='' />
               <div id="main" class="container">
                 <form>
