@@ -6,11 +6,10 @@ Share and annotate images with anyone in real-time
 Todo
 ----
 
- * click opens upload menu
- * on upload, show a preview? or upload to server straight away?
- * save button:
-  * upload iamge to server
-  * generates unique url to page
+ * store image in database with more info and unique hash for url
+ * use hash for url
+ * separate templates for home and image view? (stop using javascript to hide/show upload areas)
+ * clean up imagecontroller? empty functions, fill them in or delete?
  * setup somewhere on a domain
 
  * Further down the line

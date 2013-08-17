@@ -28,6 +28,10 @@ header {
 	font-family: 'Lobster', cursive;
 }
 
+#name a {
+	text-decoration: none;
+}
+
 #slogan {
 	position: relative;
 	margin: -2px 24px 0px 24px;
@@ -39,6 +43,10 @@ header {
 
 #page {
 	text-align: center;
+}
+
+#main {
+	display: none;
 }
 
 #main.container {
