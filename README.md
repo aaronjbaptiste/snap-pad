@@ -6,6 +6,11 @@ Share and annotate images with anyone in real-time
 Todo
 ----
 
+ * click opens upload menu
+ * on upload, show a preview? or upload to server straight away?
+ * save button:
+  * upload iamge to server
+  * generates unique url to page
  * setup somewhere on a domain
 
 How to build

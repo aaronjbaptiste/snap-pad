@@ -17,12 +17,19 @@
           <div id="slogan">Share and annotate images with anyone, <wbr>in real-time, for free.</div>
         </header>
         <div class="page">
-            <div id="main" class="container">
-              <div id="drop-area">
-                  <span>Click to upload, paste or drop an image</span>
+          <img id="image-pad" src='' />
+              <div id="main" class="container">
+                <form>
+
+                  <div id="drop-area">
+                      <span>Click to upload, paste or drop an image</span>
+                  </div>
+
+                  <input type="file" id="file-upload-button">
+                </form>
+
               </div>
-            </div>
-        </div>
+          </div>
         <footer>
           <a href="https://twitter.com/aaronjbaptiste" title="@aaronjbaptiste">copyright &copy; @aaronjbaptiste</a>
         </footer>

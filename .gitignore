@@ -5,4 +5,5 @@ composer.lock
 .DS_Store
 *.sublime-project
 *.sublime-workspace
-public/js/vendor/
+/public/js/vendor
+/public/js/dist

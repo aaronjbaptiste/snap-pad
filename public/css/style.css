@@ -35,6 +35,10 @@ header {
 	white-space: nowrap;
 }
 
+.page {
+	text-align: center;
+}
+
 #main.container {
 	padding: 60px;
 	background-color: #d83060;
@@ -52,12 +56,22 @@ header {
 	border: dashed 3px #43252d;
 	display: table; 
 	padding: 10px;
+	cursor: pointer;
 }
 
 #drop-area span {
 	vertical-align: middle; 
   	text-align: center; 
 	display: table-cell;
+}
+
+#file-upload-button {
+	display: none;
+}
+
+#image-pad {
+	max-width: 100%;
+	height: auto;
 }
 
 footer {
