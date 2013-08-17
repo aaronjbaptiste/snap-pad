@@ -6,8 +6,6 @@ Share and annotate images with anyone in real-time
 Todo
 ----
 
- * store image in database with more info and unique hash for url
- * use hash for url
  * separate templates for home and image view? (stop using javascript to hide/show upload areas)
  * clean up imagecontroller? empty functions, fill them in or delete?
  * setup somewhere on a domain
