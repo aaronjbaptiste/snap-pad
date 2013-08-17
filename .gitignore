@@ -1,7 +1,8 @@
-/bootstrap/compiled.php
+bootstrap/compiled.php
 /vendor
 composer.phar
 composer.lock
 .DS_Store
 *.sublime-project
 *.sublime-workspace
+public/js/vendor/

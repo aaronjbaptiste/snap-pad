@@ -12,28 +12,22 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-        <script type="text/x-handlebars">
-
-          <header>
-            <span id="name">Snap Pad</span>
-            <div id="slogan">Share and annotate images with anyone, <wbr>in real-time, for free.</div>
-          </header>
-          <div class="page">
-              <div id="main" class="container">
-                <div id="drop-area">
-                    <span>Click to upload, paste or drop an image</span>
-                </div>
+        <header>
+          <span id="name">Snap Pad</span>
+          <div id="slogan">Share and annotate images with anyone, <wbr>in real-time, for free.</div>
+        </header>
+        <div class="page">
+            <div id="main" class="container">
+              <div id="drop-area">
+                  <span>Click to upload, paste or drop an image</span>
               </div>
-          </div>
-          <footer>
-            <a href="https://twitter.com/aaronjbaptiste" title="@aaronjbaptiste">copyright &copy; @aaronjbaptiste</a>
-          </footer>
-        </script>
+            </div>
+        </div>
+        <footer>
+          <a href="https://twitter.com/aaronjbaptiste" title="@aaronjbaptiste">copyright &copy; @aaronjbaptiste</a>
+        </footer>
 
-        <script src="js/libs/jquery-1.9.1.js"></script>
-        <script src="js/libs/handlebars-1.0.0-rc.4.js"></script>
-        <script src="js/libs/ember-1.0.0-rc.6.1.js"></script>
-        <script src="js/app.js"></script>
+        <script data-main="js/main.js" src="js/vendor/requirejs/require.js"></script>
 
     </body>
 </html>
