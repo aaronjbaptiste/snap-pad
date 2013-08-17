@@ -1,7 +1,7 @@
 ({
 	appDir: "../public",
 	baseUrl: "js",
-	dir: "../public/js/dist",
+	dir: "../public/dist",
 	mainConfigFile: "../public/js/main.js",
 	name: "main",
 	optimizeCss: "standard",

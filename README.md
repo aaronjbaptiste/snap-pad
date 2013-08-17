@@ -13,6 +13,10 @@ Todo
   * generates unique url to page
  * setup somewhere on a domain
 
+ * Further down the line
+  * prod environment setting - switch to dist versions of js/css
+  * Almond for production
+
 How to build
 ------------
 
@@ -34,7 +38,7 @@ mv composer.phar /usr/local/bin/composer
 
 Install [Node.js](http://nodejs.org/)
 
-Install snap-pad & all dependencies
+Install snap-pad
 
 ```bash
 cd snap-pad && composer install

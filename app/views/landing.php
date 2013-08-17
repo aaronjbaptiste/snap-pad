@@ -7,8 +7,6 @@
         <title>Snap Pad</title>
 
         <link href='http://fonts.googleapis.com/css?family=Lato|Lobster' rel='stylesheet' type='text/css'>
-
-        <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
