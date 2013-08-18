@@ -15,9 +15,15 @@
           <div id="slogan">Share and annotate images with anyone, <wbr>in real-time, for free.</div>
         </header>
         <div id="page">
-          <?php
-            $src = (isset($image)) ? $image : '';
-          ?>
+
+          <? $src = (isset($image)) ? $image : '' ?>
+
+          <script>
+            var imageId = <?= (isset($imageId)) ? $imageId : -1 ?>,
+                jsonString = <?= (isset($json)) ? $json : '{}' ?>;
+          </script>
+
+          <div id="drawing-board"></div>
 
           <img id="image-pad" src='<?= $src ?>' />
               <div id="main" class="container">
@@ -37,6 +43,8 @@
           <a href="https://twitter.com/aaronjbaptiste" title="@aaronjbaptiste">copyright &copy; @aaronjbaptiste</a>
         </footer>
 
+        <script data-main="/js/main.js" src="/js/vendor/raphael/raphael.js"></script>
+        <script data-main="/js/main.js" src="/js/vendor/raphael.JSON/raphael.json.js"></script>
         <script data-main="/js/main.js" src="/js/vendor/requirejs/require.js"></script>
 
     </body>

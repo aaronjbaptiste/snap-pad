@@ -5,6 +5,8 @@
 		"jquery": "latest",
 		"backbone": "latest",
 		"underscore": "latest",
-		"requirejs": "latest"
+		"requirejs": "latest",
+		"raphael": "latest",
+		"raphael.JSON": "git@github.com:ElbertF/Raphael.JSON.git"
 	}
 }

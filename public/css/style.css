@@ -45,6 +45,10 @@ header {
 	text-align: center;
 }
 
+#drawing-board {
+	position: absolute;
+}
+
 #main {
 	display: none;
 }

@@ -3,17 +3,6 @@ snap-pad
 
 Share and annotate images with anyone in real-time
 
-Todo
-----
-
- * separate templates for home and image view? (stop using javascript to hide/show upload areas)
- * clean up imagecontroller? empty functions, fill them in or delete?
- * setup somewhere on a domain
-
- * Further down the line
-  * prod environment setting - switch to dist versions of js/css
-  * Almond for production
-
 How to build
 ------------
 

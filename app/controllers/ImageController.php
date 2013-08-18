@@ -60,7 +60,19 @@ class ImageController extends \BaseController {
 		$results = DB::select('select * from images where id = ?', array($id));
 		$fileName = $results[0]->fileName;
 
-		return View::make('landing', array("image" => "/uploaded/$fileName"));
+		$hash = self::alphaID($id, false, 6, Config::get('app.key'));
+
+		$jsonFile = base_path() . "/public/uploaded/" . $hash . ".json";
+		$paperJson = "{}";
+
+		if(file_exists($jsonFile)) {
+			$paperJson = file_get_contents($jsonFile);
+		}
+
+		$paperJson = json_encode($paperJson);
+
+
+		return View::make('landing', array("image" => "/uploaded/$fileName", "imageId" => $id, "json" => $paperJson));
 	}
 
 	/**
@@ -82,7 +94,8 @@ class ImageController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$hash = self::alphaID($id, false, 6, Config::get('app.key'));
+		file_put_contents(base_path() . "/public/uploaded/" . $hash . ".json", Request::getContent());
 	}
 
 	/**
