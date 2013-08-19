@@ -3,12 +3,6 @@ snap-pad
 
 Share and annotate images with anyone in real-time
 
-Todo
-----
-
- * switch over to backbone (branch)? - it will take a while to get up to speed with ember
- * setup somewhere on a domain
-
 How to build
 ------------
 
@@ -28,10 +22,14 @@ curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 ```
 
+Install [Node.js](http://nodejs.org/)
+
 Install snap-pad
 
 ```bash
 cd snap-pad && composer install
+npm install requirejs bower
+bower install
 ```
 
 Make sure your web document root allows read and write access to apache. See [Laravel's Installation docs](http://laravel.com/docs/installation) for more details

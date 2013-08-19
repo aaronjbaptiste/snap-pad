@@ -1,3 +1,5 @@
+@import "bootstrap.css";
+
 html {
 	font-family: 'Lato', sans-serif;
 }
@@ -26,6 +28,10 @@ header {
 	font-family: 'Lobster', cursive;
 }
 
+#name a {
+	text-decoration: none;
+}
+
 #slogan {
 	position: relative;
 	margin: -2px 24px 0px 24px;
@@ -35,8 +41,16 @@ header {
 	white-space: nowrap;
 }
 
-.page {
+#page {
 	text-align: center;
+}
+
+#drawing-board {
+	position: absolute;
+}
+
+#main {
+	display: none;
 }
 
 #main.container {
@@ -100,7 +114,7 @@ footer a, footer a:hover {
 		position: static;
 	}
 
-	.page {
+	#page {
 		min-height: 470px;
 	}
 }

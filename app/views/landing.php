@@ -7,38 +7,44 @@
         <title>Snap Pad</title>
 
         <link href="http://fonts.googleapis.com/css?family=Lato|Lobster" rel="stylesheet" type="text/css">
-
-        <link rel="stylesheet" href="css/bootstrap.css">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="/css/style.css">
     </head>
     <body>
-        <script type="text/x-handlebars">
-          <header>
-            <span id="name">Snap Pad</span>
-            <div id="slogan">Share and annotate images with anyone, <wbr>in real-time, for free.</div>
-          </header>
-          <div class="page">
+        <header>
+          <span id="name"><a href="/">Snap Pad</a></span>
+          <div id="slogan">Share and annotate images with anyone, <wbr>in real-time, for free.</div>
+        </header>
+        <div id="page">
+          <? $src = (isset($image)) ? $image : '' ?>
+
+          <script>
+            var imageId = <?= (isset($imageId)) ? $imageId : -1 ?>,
+                jsonString = <?= (isset($json)) ? $json : '{}' ?>;
+          </script>
+
+          <div id="drawing-board"></div>
+
+          <img id="image-pad" src='<?= $src ?>' />
           <img id="image-pad" src='' />
               <div id="main" class="container">
-                <form {{action "uploadImage" on="submit"}}>
+                <?= Form::open(array('route' => 'image.store', 'files' => true)) ?>
 
-                  <div id="drop-area" {{action "uploadFile"}}>
+                  <div id="drop-area">
                       <span>Click to upload, paste or drop an image</span>
                   </div>
 
-                  <input type="file" id="file-upload-button">
-                </form>
+                  <?= Form::file('image', array('id' => 'file-upload-button')) ?>
+
+                <?= Form::close() ?>
 
               </div>
           </div>
-          <footer>
-            <a href="https://twitter.com/aaronjbaptiste" title="@aaronjbaptiste">copyright &copy; @aaronjbaptiste</a>
-          </footer>
-        </script>
+        <footer>
+          <a href="https://twitter.com/aaronjbaptiste" title="@aaronjbaptiste">copyright &copy; @aaronjbaptiste</a>
+        </footer>
 
-        <script src="js/libs/jquery-1.9.1.js"></script>
-        <script src="js/libs/handlebars-1.0.0-rc.4.js"></script>
-        <script src="js/libs/ember-1.0.0-rc.6.1.js"></script>
-        <script src="js/app.js"></script>
+        <script data-main="/js/main.js" src="/js/vendor/raphael/raphael.js"></script>
+        <script data-main="/js/main.js" src="/js/vendor/raphael.JSON/raphael.json.js"></script>
+        <script data-main="/js/main.js" src="/js/vendor/requirejs/require.js"></script>
     </body>
 </html>
