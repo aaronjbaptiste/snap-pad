@@ -105,6 +105,12 @@ footer a, footer a:hover {
 	color: #ffffff;
 }
 
+button#save, button#export {
+	position: relative;
+	top: 10px;
+
+}
+
 @media only screen and (max-height : 600px) {
 	#drop-area {
 		height: 240px;

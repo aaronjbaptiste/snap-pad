@@ -1,4 +1,4 @@
-define(["backbone"], function(Backbone, raphael) {
+define(["backbone"], function(Backbone) {
 
 	var AppModel = Backbone.Model.extend({
 		initialize: function() {
@@ -14,6 +14,7 @@ define(["backbone"], function(Backbone, raphael) {
 			"click #drop-area": "onUploadRequest",
 			"change #file-upload-button": "onImageSet",
 			"click #save": "onSave",
+			"click #export": "exportImage",
 		},
 		model: new AppModel(),
 		initialize: function() {
@@ -22,20 +23,25 @@ define(["backbone"], function(Backbone, raphael) {
 			if (image.attr("src") === "") {
 				$('#main').show();
 			} else {
+				image.hide();
 				var paper = Raphael("drawing-board", image.width(), image.height());
 
 				if (jsonString !== "{}" ) {
 					console.log("this has been loaded from the server, well done me.");
 					var paperJSON = $.parseJSON(jsonString);
+					console.log(paperJSON);
 					paper.fromJSON(paperJSON);
 				} else {
 					console.log("this hasn't, I hope it's a new image");
+					console.log("image", image.attr("src"));
+					paper.image(image.attr("src"), 0, 0, image.width(), image.height());
 					var circle = paper.circle(200, 90, 70);
 					circle.attr("fill", "#f00");
 					circle.attr("stroke", "#fff");
 				}
 
 				this.$el.append($("<button id='save'>Save</button>"));
+				this.$el.append($("<button id='export'>export</button>"));
 				this.model.set("paper", paper);
 			}
 
@@ -48,8 +54,9 @@ define(["backbone"], function(Backbone, raphael) {
 		},
 		onSave: function(e) {
 			var paper = this.model.get("paper");
+			var json = paper.toJSON();
+			console.log("saving:", json)
 			if (paper) {
-				var json = paper.toJSON();
 				$.ajax({
 				  type: "PUT",
 				  url: "/image/" + imageId,
@@ -57,6 +64,34 @@ define(["backbone"], function(Backbone, raphael) {
 				  dataType: "json"
 				});
 			}
+		},
+		exportImage: function() {
+			var paper = this.model.get("paper");
+			var svg = paper.toSVG();
+			var canvas = $('<canvas id="canvas">').appendTo('#page').hide();
+
+			if (typeof FlashCanvas != "undefined") {
+			  FlashCanvas.initElement(canvas); //initiate Flashcanvas on our canvas
+			}
+
+			canvg(canvas[0], svg, {
+				ignoreMouse: true,
+  				ignoreAnimation: true,
+  				ignoreClear: true,
+  				renderCallback: function() {
+  				  setTimeout(function() {
+  				    canvas2png(canvas[0]);
+  				  }, 1000);
+  				}
+			});
+
+			// setTimeout(function() {
+	  //          //fetch the dataURL from the canvas and set it as src on the image
+	  //          var dataURL = document.getElementById('canvas').toDataURL("image/png");
+	  //          //document.getElementById('image-pad').src = dataURL;
+	  //          document.location.href = dataURL.replace("image/png", "image/octet-stream");
+	           
+	  //      }, 100);
 		}
 	});
 

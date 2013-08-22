@@ -7,6 +7,7 @@
 		"underscore": "latest",
 		"requirejs": "latest",
 		"raphael": "latest",
-		"raphael.JSON": "git@github.com:ElbertF/Raphael.JSON.git"
+		"raphael.JSON": "git@github.com:ElbertF/Raphael.JSON.git",
+		"raphael.Export": "git@github.com:ElbertF/Raphael.Export.git"
 	}
 }
