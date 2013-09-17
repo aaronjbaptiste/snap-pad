@@ -2,7 +2,7 @@
 	"name": "snap-pad",
 	"version": "0.0.1",
 	"dependencies": {
-		"jquery": "latest",
+		"jquery": "1.10.2",
 		"backbone": "latest",
 		"underscore": "latest",
 		"requirejs": "latest",

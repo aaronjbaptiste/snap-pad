@@ -50,7 +50,7 @@ define(["backbone"], function(Backbone) {
 			$('#file-upload-button').click();
 		},
 		onImageSet: function(e) {
-	        this.$('form').submit();
+	        //this.$('form').submit();
 		},
 		onSave: function(e) {
 			var paper = this.model.get("paper");
@@ -68,19 +68,25 @@ define(["backbone"], function(Backbone) {
 		exportImage: function() {
 			var paper = this.model.get("paper");
 			var svg = paper.toSVG();
-			var canvas = $('<canvas id="canvas">').appendTo('#page').hide();
 
+			var $canvas = $('<canvas>').appendTo('#page');
+			var canvas = $canvas[0];
+			
 			if (typeof FlashCanvas != "undefined") {
-			  FlashCanvas.initElement(canvas); //initiate Flashcanvas on our canvas
+			    FlashCanvas.initElement(canvas);
 			}
 
-			canvg(canvas[0], svg, {
+			canvg(canvas, svg, {
 				ignoreMouse: true,
   				ignoreAnimation: true,
   				ignoreClear: true,
   				renderCallback: function() {
+					$canvas.hide();
   				  setTimeout(function() {
-  				    canvas2png(canvas[0]);
+  				  	console.log("png");
+
+  				    canvas2png(canvas);
+
   				  }, 1000);
   				}
 			});
