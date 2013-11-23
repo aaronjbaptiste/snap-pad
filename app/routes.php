@@ -11,9 +11,15 @@
 |
 */
 
+
 Route::get('/', function()
 {
-	return View::make('landing');
+    return View::make('landing');
 });
 
-Route::resource('image', 'ImageController');
+Route::get('image', function()
+{
+    return "yo";
+});
+
+//Route::resource('image', 'ImageController');

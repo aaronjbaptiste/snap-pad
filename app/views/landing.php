@@ -46,7 +46,7 @@
         <!--[if lt IE 9]>
         <script type="text/javascript" src="/js/vendor/flashcanvas/flashcanvas.js"></script>
         <![endif]-->
-        <script src="/js/vendor/flashcanvas/canvas2png.js"></script>
+        <script src="/js/vendor/flashcanvas/bin/canvas2png.js"></script>
         <script src="/js/vendor/raphael/raphael.js"></script>
         <script src="/js/vendor/raphael.JSON/raphael.json.js"></script>
         <script src="/js/vendor/raphael.Export/raphael.export.js"></script>

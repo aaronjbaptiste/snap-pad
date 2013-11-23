@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'url' => 'http://local-snappad.com',
+	'url' => 'http://snappad.local-gravityapple.com',
 
 	/*
 	|--------------------------------------------------------------------------

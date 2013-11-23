@@ -50,7 +50,7 @@ define(["backbone"], function(Backbone) {
 			$('#file-upload-button').click();
 		},
 		onImageSet: function(e) {
-	        //this.$('form').submit();
+	        this.$('form').submit();
 		},
 		onSave: function(e) {
 			var paper = this.model.get("paper");
