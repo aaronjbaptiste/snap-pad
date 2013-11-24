@@ -17,9 +17,4 @@ Route::get('/', function()
     return View::make('landing');
 });
 
-Route::get('image', function()
-{
-    return "yo";
-});
-
-//Route::resource('image', 'ImageController');
+Route::resource('image', 'ImageController');
