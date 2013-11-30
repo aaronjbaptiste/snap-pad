@@ -6,6 +6,9 @@
 		"laravel/framework": "4.0.*",
 		"mitch/hashids": "dev-master"
 	},
+	"require-dev": {
+		"way/generators": "1.0.*@dev"
+	},
 	"autoload": {
 		"classmap": [
 			"app/commands",

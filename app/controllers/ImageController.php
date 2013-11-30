@@ -4,25 +4,27 @@ class ImageController extends BaseController {
 
 	public function index()
 	{
-		return Redirect::home();
+		$images = Image::all();
+		
+		return View::make('images', compact('images'));
+		//return Redirect::home();
 	}
 
 	public function show($hash)
 	{
-		$id = Hashids::decrypt($hash)[0];
+		$image = Image::where('hash', $hash)->first();
 
-		$image = Image::findOrFail($id);
-		$paperPath = public_path() . $image->paper;
-		$paperJson = "{}";
-
-		if(file_exists($paperPath)) {
-			$paperJson = file_get_contents($paperPath);
+		if (empty($image)) {
+			return "Can't find image $hash";
 		}
 
-		return View::make('image', array(
-			'image' => $image, 
-			'paperJson' => json_encode($paperJson)
-		));
+		$paperPath = public_path() . $image->paper;
+
+		if (file_exists($paperPath)) {
+			$paperJson = json_encode(file_get_contents($paperPath));
+		}
+
+		return View::make('image', compact('image', 'paperJson'));
 	}
 
 	public function store()
@@ -46,9 +48,7 @@ class ImageController extends BaseController {
 		    $image->path = $localPath . $fileName;
 		  	$image->save();
 
-		    $url = Hashids::encrypt($image->id);
-
-		    return Redirect::action('ImageController@show', array($url));
+		    return Redirect::action('ImageController@show', array($image->hash));
 		}
 
 		return Redirect::home();
@@ -79,8 +79,8 @@ class ImageController extends BaseController {
 		}
 
 		$imagePath = public_path() . $image->path;
-
 		unlink($imagePath);
+		
 		$image->delete();
 	}
 

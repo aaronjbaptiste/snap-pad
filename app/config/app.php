@@ -113,7 +113,9 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+
 		'Mitch\Hashids\HashidsServiceProvider',
+		'Way\Generators\GeneratorsServiceProvider'
 
 	),
 
