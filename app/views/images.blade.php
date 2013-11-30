@@ -6,7 +6,9 @@
         <h1>All Images</h1>
         <ul class="list-group">
             @foreach ($images as $image)
-                <li class = "list-group-item">{{ link_to("image/{$image->hash}", $image->hash) }}</li>
+                <li class = "list-group-item">
+                    {{ link_to_route('image.show', $image->originalName, [$image->hash]) }}
+                </li>
             @endforeach
         </ul> 
     </div>

@@ -4,7 +4,7 @@ Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 
 Route::get('image', 'ImageController@index');
 
-Route::get('image/{hash}', 'ImageController@show');
+Route::get('image/{hash}', ['as' => 'image.show', 'uses' => 'ImageController@show']);
 
 Route::post('image', ['as' => 'image.store', 'uses' => 'ImageController@store']);
 

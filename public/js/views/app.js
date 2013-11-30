@@ -17,7 +17,7 @@ define(["module", "backbone"], function(module, Backbone) {
 			"click .delete": "onDelete",
 		},
 		initialize: function(options) {
-			//TODO attaching stuff to view like this a good idea?
+			//TODOs attaching stuff to view like this a good idea?
 			//or through a model?
 			this.canvas = options.canvas;
 		},
@@ -34,7 +34,7 @@ define(["module", "backbone"], function(module, Backbone) {
 
 			$.ajax({
 			  type: "PATCH",
-			  url: "/image/" + module.config().imageId,
+			  url: "/image/" + module.config().image.id,
 			  data: paperData,
 			  dataType: "json"
 			});
@@ -63,7 +63,7 @@ define(["module", "backbone"], function(module, Backbone) {
 		onDelete: function() {
 			$.ajax({
 			  type: "DELETE",
-			  url: "/image/" + module.config().imageId,
+			  url: "/image/" + module.config().image.id,
 			  success: function() {
 			  	location.href='/';
 			  }
@@ -81,12 +81,10 @@ define(["module", "backbone"], function(module, Backbone) {
 			//scales with canvas
 			//can draw anywhere on canvas
 			
-			if (module.config().paperJson) {
-				console.log(module.config().paperJson);
-				var paperJson = $.parseJSON(module.config().paperJson);
-				paper.fromJSON(paperJson);
+			if (module.config().image.paperJson) {
+				paper.fromJSON(module.config().image.paperJson);
 			} else {
-				var image = module.config().imagePath;
+				var image = module.config().image.path;
 				paper.image(image, 0, 0, this.$el.width(), this.$el.height());
 			}
 		},

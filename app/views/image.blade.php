@@ -28,10 +28,8 @@
     <script>
       var require = {
         config: {
-          'views/app': { //todo just encode and send image as json
-            'imagePath': '{{ $image->path }}',
-            'imageId' : '{{ $image->id }}',
-            @if (isset($paperJson)) 'paperJson': {{ $paperJson }}, @endif
+          'views/app': {
+            'image' : {{ $image }}
           }
         }
       };

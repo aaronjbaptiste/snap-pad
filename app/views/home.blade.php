@@ -2,13 +2,13 @@
 
 @section('content')
     <div id="main" class="container">
-        {{ Form::open(array('route' => 'image.store', 'files' => true, 'class' => 'new-image')) }}
+        {{ Form::open(['route' => 'image.store', 'files' => true, 'class' => 'new-image']) }}
 
             <div id="drop-area">
                 <span>Click to upload, paste or drop an image</span>
             </div>
 
-            {{ Form::file('image', array('id' => 'file-upload-button')) }}
+            {{ Form::file('image', ['id' => 'file-upload-button']) }}
         {{ Form::close() }}
     </div>
 @stop
