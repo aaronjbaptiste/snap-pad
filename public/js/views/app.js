@@ -1,77 +1,48 @@
-define(["backbone"], function(Backbone) {
+define(["module", "backbone"], function(module, Backbone) {
 
-	var AppModel = Backbone.Model.extend({
+	App.Views.Main = Backbone.View.extend({
+		el: "body",
 		initialize: function() {
-			this.set({
-				paper: null
-			})
+			var canvas = new App.Views.Canvas();
+			var toolbar = new App.Views.Toolbar({canvas: canvas});
 		}
 	});
 
-	var App = Backbone.View.extend({
-		el : "#page",
+	App.Views.Toolbar = Backbone.View.extend({
+		el: "#toolbar",
 		events: {
-			"click #drop-area": "onUploadRequest",
-			"change #file-upload-button": "onImageSet",
-			"click #save": "onSave",
-			"click #export": "exportImage",
+			"click .draw": "onDraw",
+			"click .save": "onSave",
+			"click .export": "onExport",
+			"click .delete": "onDelete",
 		},
-		model: new AppModel(),
-		initialize: function() {
-			var image = this.$("#image-pad");
-
-			if (image.attr("src") === "") {
-				$('#main').show();
-			} else {
-				image.hide();
-				var paper = Raphael("drawing-board", image.width(), image.height());
-
-				if (jsonString !== "{}" ) {
-					console.log("this has been loaded from the server, well done me.");
-					var paperJSON = $.parseJSON(jsonString);
-					console.log(paperJSON);
-					paper.fromJSON(paperJSON);
-				} else {
-					console.log("this hasn't, I hope it's a new image");
-					console.log("image", image.attr("src"));
-					paper.image(image.attr("src"), 0, 0, image.width(), image.height());
-					var circle = paper.circle(200, 90, 70);
-					circle.attr("fill", "#f00");
-					circle.attr("stroke", "#fff");
-				}
-
-				this.$el.append($("<button id='save'>Save</button>"));
-				this.$el.append($("<button id='export'>export</button>"));
-				this.model.set("paper", paper);
-			}
-
+		initialize: function(options) {
+			//TODO attaching stuff to view like this a good idea?
+			//or through a model?
+			this.canvas = options.canvas;
 		},
-		onUploadRequest: function() {
-			$('#file-upload-button').click();
+		render: function() {
+			//render stuff here instead of pre dom?
 		},
-		onImageSet: function(e) {
-	        this.$('form').submit();
+		onDraw: function() {
+			this.canvas.drawCircle();
 		},
-		onSave: function(e) {
-			var paper = this.model.get("paper");
-			var json = paper.toJSON();
-			console.log("saving:", json)
-			if (paper) {
-				$.ajax({
-				  type: "PUT",
-				  url: "/image/" + imageId,
-				  data: json,
-				  dataType: "json"
-				});
-			}
-		},
-		exportImage: function() {
-			var paper = this.model.get("paper");
-			var svg = paper.toSVG();
+		onSave: function() {
+			var paperData = {
+				paper: this.canvas.paper.toJSON()
+			};
 
-			var $canvas = $('<canvas>').appendTo('#page');
-			var canvas = $canvas[0];
-			
+			$.ajax({
+			  type: "PATCH",
+			  url: "/image/" + module.config().imageId,
+			  data: paperData,
+			  dataType: "json"
+			});
+		},
+		onExport: function() {
+			var svg = this.canvas.paper.toSVG();
+			var canvas = $('<canvas>')[0];
+						
 			if (typeof FlashCanvas != "undefined") {
 			    FlashCanvas.initElement(canvas);
 			}
@@ -81,26 +52,51 @@ define(["backbone"], function(Backbone) {
   				ignoreAnimation: true,
   				ignoreClear: true,
   				renderCallback: function() {
-					$canvas.hide();
-  				  setTimeout(function() {
-  				  	console.log("png");
-
-  				    canvas2png(canvas);
-
-  				  }, 1000);
+	  				setTimeout(function() {
+  				    	canvas2png(canvas);
+  				  	}, 100);
   				}
 			});
 
-			// setTimeout(function() {
-	  //          //fetch the dataURL from the canvas and set it as src on the image
-	  //          var dataURL = document.getElementById('canvas').toDataURL("image/png");
-	  //          //document.getElementById('image-pad').src = dataURL;
-	  //          document.location.href = dataURL.replace("image/png", "image/octet-stream");
-	           
-	  //      }, 100);
+			//save.php is failing? I think that used to rename it
+		},
+		onDelete: function() {
+			$.ajax({
+			  type: "DELETE",
+			  url: "/image/" + module.config().imageId,
+			  success: function() {
+			  	location.href='/';
+			  }
+			});
 		}
 	});
 
-	return App;
+	App.Views.Canvas = Backbone.View.extend({
+		el : "#page",
+		initialize: function() {
+			var paper = Raphael("drawing-board", this.$el.width(), this.$el.height());
+			this.paper = paper;
+
+			//todo canvas stays central and isn't stretched etc
+			//scales with canvas
+			//can draw anywhere on canvas
+			
+			if (module.config().paperJson) {
+				console.log(module.config().paperJson);
+				var paperJson = $.parseJSON(module.config().paperJson);
+				paper.fromJSON(paperJson);
+			} else {
+				var image = module.config().imagePath;
+				paper.image(image, 0, 0, this.$el.width(), this.$el.height());
+			}
+		},
+		drawCircle: function() {
+			var circle = this.paper.circle(200, 90, 70);
+			circle.attr("fill", "#f00");
+			circle.attr("stroke", "#fff");
+		}
+	});
+
+	return App.Views.Main;
 
 });

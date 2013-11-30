@@ -1,20 +1,13 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the Closure to execute when that URI is requested.
-|
-*/
+Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 
+Route::get('image', 'ImageController@index');
 
-Route::get('/', function()
-{
-    return View::make('landing');
-});
+Route::get('image/{id}', 'ImageController@show');
 
-Route::resource('image', 'ImageController');
+Route::post('image', ['as' => 'image.store', 'uses' => 'ImageController@store']);
+
+Route::patch('image/{id}', 'ImageController@update');
+
+Route::delete('image/{id}', 'ImageController@destroy');

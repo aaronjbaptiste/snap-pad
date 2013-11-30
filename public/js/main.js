@@ -15,6 +15,11 @@ require.config({
 	}
 });
 
-require(["views/app"], function(AppView) {
-	new AppView;
+var App = {
+	Views: {},
+	Models: {}
+};
+
+require(["views/app"], function(Main) {
+	new Main();
 });
