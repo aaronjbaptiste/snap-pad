@@ -9,6 +9,7 @@
             </div>
 
             {{ Form::file('image', ['id' => 'file-upload-button']) }}
+            
         {{ Form::close() }}
     </div>
 @stop

@@ -16,10 +16,11 @@ class ImageController extends BaseController {
 
 	public function store()
 	{
-		if (Input::hasFile('image'))
-		{
-			$image = Image::addNew(Input::file('image'));
-		    return Redirect::action('ImageController@show', array($image->hash));
+
+		$image = Image::addNew(Input::file('image'));
+
+		if ($image) {
+			return Redirect::action('ImageController@show', array($image->hash));	
 		}
 
 		return Redirect::home();

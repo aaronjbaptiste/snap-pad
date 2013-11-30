@@ -1,8 +1,13 @@
 <?php
 
-class Image extends Eloquent {
+class Image extends BaseModel {
 
     protected $table = 'images';
+    protected static $rules = [
+        'originalName' => 'required',
+        'fileName'     => 'required',
+        'path'         => 'required',
+    ];
     protected $fillable = ['originalName', 'fileName', 'path'];
 
     public static function boot()
@@ -13,23 +18,38 @@ class Image extends Eloquent {
             $image->hash = Hashids::encrypt($image->id);
             $image->save();
         });
+
+        static::saving(function($image) {
+            return $image->validate();
+        });
+    }
+
+    protected function setOriginalNameAttribute($value)
+    {
+        $this->attributes['originalName'] = htmlentities($value);
     }
 
     public static function addNew($file)
     {
-        //todo duplicate code with local path etc (see update)
-        $localPath = "/uploaded/imgs/";
-        $destination = public_path() . $localPath;
-        $fileName = uniqid("img");
-        $file->move($destination, $fileName);
+        if (Input::hasFile('image'))
+        {
+            //todo duplicate code with local path etc (see update)
+            $localPath = "/uploaded/imgs/";
+            $destination = public_path() . $localPath;
+            $fileName = uniqid("img");
+            
+            $image = new Image;
+            $image->originalName = $file->getClientOriginalName();
+            $image->fileName = $fileName;
+            $image->path = $localPath . $fileName;
 
-        $image = static::create([
-            'originalName' => $file->getClientOriginalName(),
-            'fileName'     => $fileName,
-            'path'         => $localPath . $fileName
-        ]);
+            if ($image->save()) {
+                $file->move($destination, $fileName);
+                return $image;
+            }
+        }
 
-        return $image;
+        return false;
     }
 
     public static function deleteById($id)
@@ -77,6 +97,10 @@ class Image extends Eloquent {
         $localPath = "/uploaded/paper/";
         $destination = public_path() . $localPath;
         $fileName = uniqid("pap");
+
+        //todo review security implications
+        //of using paper as it was sent.
+        //perhaps use htmlentities?
         file_put_contents($destination . $fileName, $paper);
 
         $image = static::findOrFail($id);

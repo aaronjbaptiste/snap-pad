@@ -5,7 +5,7 @@
         <button type="button" class="draw btn btn-default">Draw</button>
         <button type="button" class="save btn btn-default">Save</button>
         <button type="button" class="export btn btn-default">Export</button>
-        <button type="button" class="delete btn btn-default">Delete</button>
+        <button type="button" class="delete btn btn-danger">Delete</button>
     </ul>
 @stop
 
