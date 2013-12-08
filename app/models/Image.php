@@ -43,6 +43,11 @@ class Image extends BaseModel {
             $image->fileName = $fileName;
             $image->path = $localPath . $fileName;
 
+            list($width, $height) = getimagesize($file->getRealPath());
+
+            $image->width = $width;
+            $image->height = $height;
+
             if ($image->save()) {
                 $file->move($destination, $fileName);
                 return $image;

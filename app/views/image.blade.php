@@ -2,7 +2,10 @@
 
 @section('toolbar')
     <ul id="toolbar">
-        <button type="button" class="draw btn btn-default">Draw</button>
+        <button type="button" class="drawCircle btn btn-default">Circle</button>
+        <button type="button" class="drawSquare btn btn-default">Square</button>
+        <button type="button" class="drawFree btn btn-default">Free</button>
+        <button type="button" class="drawArrow btn btn-default">Arrow</button>
         <button type="button" class="save btn btn-default">Save</button>
         <button type="button" class="export btn btn-default">Export</button>
         <button type="button" class="delete btn btn-danger">Delete</button>

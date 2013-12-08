@@ -1,5 +1,18 @@
 define(["module", "backbone"], function(module, Backbone) {
 
+	Raphael.fn.arrow = function (x1, y1, x2, y2, asize, strokeWidth, color) {
+		strokeWidth = typeof strokeWidth !== 'undefined' ? strokeWidth : 1;
+		color = typeof color !== 'undefined' ? color : "#000000";
+
+	    var angle = Math.atan2(x1-x2,y2-y1);
+	    angle = (angle / (2 * Math.PI)) * 360;
+	    var arrowPath = this.path("M" + x2 + " " + y2 + " L" + (x2 - asize) + " " + (y2 - asize) + " L" + (x2 - asize) + " " + (y2 + asize) + " L" + x2 + " " + y2 ).attr("fill",color).rotate((90+angle),x2,y2);
+	    arrowPath.attr({stroke: color,"stroke-width": strokeWidth});
+	    var linePath = this.path("M" + x1 + " " + y1 + " L" + x2 + " " + y2);
+	    linePath.attr({stroke: color,"stroke-width": strokeWidth});
+	    return [linePath,arrowPath];
+	}
+
 	App.Views.Main = Backbone.View.extend({
 		el: "body",
 		initialize: function() {
@@ -11,7 +24,10 @@ define(["module", "backbone"], function(module, Backbone) {
 	App.Views.Toolbar = Backbone.View.extend({
 		el: "#toolbar",
 		events: {
-			"click .draw": "onDraw",
+			"click .drawCircle": "onDrawCircle",
+			"click .drawSquare": "onDrawSquare",
+			"click .drawFree": "onDrawFree",
+			"click .drawArrow": "onDrawArrow",
 			"click .save": "onSave",
 			"click .export": "onExport",
 			"click .delete": "onDelete",
@@ -24,8 +40,17 @@ define(["module", "backbone"], function(module, Backbone) {
 		render: function() {
 			//render stuff here instead of pre dom?
 		},
-		onDraw: function() {
+		onDrawCircle: function() {
 			this.canvas.drawCircle();
+		},
+		onDrawSquare: function() {
+			this.canvas.drawSquare();
+		},
+		onDrawFree: function() {
+			this.canvas.drawFree();
+		},
+		onDrawArrow: function() {
+			this.canvas.drawArrow();
 		},
 		onSave: function() {
 			var paperData = {
@@ -58,7 +83,7 @@ define(["module", "backbone"], function(module, Backbone) {
   				}
 			});
 
-			//save.php is failing? I think that used to rename it
+			//fixme save.php is failing? I think that used to rename it
 		},
 		onDelete: function() {
 			$.ajax({
@@ -74,25 +99,181 @@ define(["module", "backbone"], function(module, Backbone) {
 	App.Views.Canvas = Backbone.View.extend({
 		el : "#page",
 		initialize: function() {
-			var paper = Raphael("drawing-board", this.$el.width(), this.$el.height());
+			var imageJson = module.config().image;
+			var paper = Raphael("drawing-board", imageJson.width, imageJson.height);
 			this.paper = paper;
-
-			//todo canvas stays central and isn't stretched etc
-			//scales with canvas
-			//can draw anywhere on canvas
 			
-			if (module.config().image.paperJson) {
-				paper.fromJSON(module.config().image.paperJson);
+			if (imageJson.paperJson) {
+				paper.fromJSON(imageJson.paperJson);
 			} else {
-				var image = module.config().image.path;
-				paper.image(image, 0, 0, this.$el.width(), this.$el.height());
+				var image = imageJson.path;
+				paper.image(image, 0, 0, imageJson.width, imageJson.height);
 			}
 		},
 		drawCircle: function() {
-			var circle = this.paper.circle(200, 90, 70);
-			circle.attr("fill", "#f00");
-			circle.attr("stroke", "#fff");
+			var paper = this.paper;
+			var svg = this.$('svg');
+			svg.off("mousedown");
+			svg.mousedown(function(e) {
+
+				var parentOffset = svg.offset(); 
+			  	var startX = e.pageX - parentOffset.left;
+			  	var startY = e.pageY - parentOffset.top;
+
+				var ellipse = paper.ellipse(startX, startY, 1, 1);
+				ellipse.attr("stroke", "#ff0000");
+				ellipse.attr("stroke-width", 3);
+
+				svg.mousemove(function(e) {
+					ellipse.remove();
+					
+				  	var relX = e.pageX - parentOffset.left;
+				  	var relY = e.pageY - parentOffset.top;
+
+				  	var topX = 0;
+				  	var topY = 0;
+				  	var bottomX = 0;
+				  	var bottomY = 0;
+
+				  	if (startX <= relX) {
+				  		topX = startX;
+				  		bottomX = relX;
+				  	} else {
+				  		topX = relX;
+				  		bottomX = startX;
+				  	}
+
+				  	if (startY <= relY) {
+				  		topY = startY;
+				  		bottomY = relY;
+				  	} else {
+				  		topY = relY;
+				  		bottomY = startY;
+				  	}
+
+				  	ellipse = paper.ellipse((topX + bottomX)/2, (topY + bottomY)/2, (bottomX - topX)/2, (bottomY - topY)/2);
+				  	ellipse.attr("stroke", "#ff0000");
+					ellipse.attr("stroke-width", 3);
+			    });
+			});
+
+			svg.mouseup(function() {
+		        svg.off("mousemove");
+		    });
+			
+		},
+		drawSquare:function() {
+			var paper = this.paper;
+			var svg = this.$('svg');
+			svg.off("mousedown");
+			svg.mousedown(function(e) {
+
+				var parentOffset = svg.offset(); 
+			  	var startX = e.pageX - parentOffset.left;
+			  	var startY = e.pageY - parentOffset.top;
+
+				var square = paper.rect(startX, startY, 1, 1);
+				square.attr("stroke", "#ff0000");
+				square.attr("stroke-width", 3);
+
+				svg.mousemove(function(e) {
+					square.remove();
+					
+				  	var relX = e.pageX - parentOffset.left;
+				  	var relY = e.pageY - parentOffset.top;
+
+				  	var topX = 0;
+				  	var topY = 0;
+				  	var bottomX = 0;
+				  	var bottomY = 0;
+
+				  	if (startX <= relX) {
+				  		topX = startX;
+				  		bottomX = relX;
+				  	} else {
+				  		topX = relX;
+				  		bottomX = startX;
+				  	}
+
+				  	if (startY <= relY) {
+				  		topY = startY;
+				  		bottomY = relY;
+				  	} else {
+				  		topY = relY;
+				  		bottomY = startY;
+				  	}
+
+				  	square = paper.rect(topX, topY, (bottomX - topX), (bottomY - topY));
+				  	square.attr("stroke", "#ff0000");
+					square.attr("stroke-width", 3);
+			    });
+			});
+
+			svg.mouseup(function() {
+		        svg.off("mousemove");
+		    });
+		},
+		drawFree:function() {
+			var g_masterPathArray;
+			var g_masterDrawingBox;
+			var paper = this.paper;
+			var svg = this.$('svg');
+
+			svg.off("mousedown");
+			svg.mousedown(function(e) {
+				var parentOffset = svg.offset();
+				g_masterPathArray = new Array(); 
+			  	var startX = e.pageX - parentOffset.left;
+			  	var startY = e.pageY - parentOffset.top;
+
+				svg.mousemove(function(e) {
+			        var relX = e.pageX - parentOffset.left;
+			        var relY = e.pageY - parentOffset.top;
+
+			        if (g_masterPathArray.length == 0) {
+			            g_masterPathArray[0] = ["M",relX,relY];
+			            g_masterDrawingBox = paper.path(g_masterPathArray);
+			            g_masterDrawingBox.attr({stroke: "#ff0000","stroke-width": 3});
+			        } else {
+			            g_masterPathArray[g_masterPathArray.length] =["L",relX,relY];
+			        }
+			        
+			        g_masterDrawingBox.attr({path: g_masterPathArray});
+			    });
+			});
+
+			svg.mouseup(function() {
+		        svg.off("mousemove");
+		    });
+		    
+		},
+		drawArrow:function() {
+			var paper = this.paper;
+			var svg = this.$('svg');
+
+			svg.off("mousedown");
+			svg.mousedown(function(e) {
+				var parentOffset = svg.offset();
+			  	var startX = e.pageX - parentOffset.left;
+			  	var startY = e.pageY - parentOffset.top;
+
+			  	var arrow = paper.arrow(startX, startY, startX, startY, 9, 5, "#ff0000");
+
+				svg.mousemove(function(e) {
+					arrow[0].remove();
+					arrow[1].remove();
+			        var relX = e.pageX - parentOffset.left;
+			        var relY = e.pageY - parentOffset.top;
+
+			        arrow = paper.arrow(startX, startY, relX, relY, 9, 3, "#ff0000");
+			    });
+			});
+
+			svg.mouseup(function() {
+		        svg.off("mousemove");
+		    });
 		}
+
 	});
 
 	return App.Views.Main;

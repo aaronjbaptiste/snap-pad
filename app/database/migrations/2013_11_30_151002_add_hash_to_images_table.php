@@ -11,6 +11,8 @@ class AddHashToImagesTable extends Migration {
 				->unique()
 				->nullable()
 				->after('id');
+			$table->smallInteger('width');
+			$table->smallInteger('height');
 		});
 	}
 

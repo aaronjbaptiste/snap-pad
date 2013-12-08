@@ -34,6 +34,19 @@ bower install
 
 Make sure your web document root allows read and write access to apache. See [Laravel's Installation docs](http://laravel.com/docs/installation) for more details
 
+Todo
+-----
+
+ 1. Refactor all front end
+ 2. Final menu design, including:
+  * redo, undo
+  * comment
+  * select - move, change shape, change arrow
+  * stroke width
+  * stroke color
+ 3. Fix responsive layout
+ 4. Export sets filename
+ 5. xBrowser testing
 
 Questions?
 ----------

@@ -29,12 +29,14 @@ class ImageController extends BaseController {
 	public function update($id)
 	{
 		//fixme anyone can currently update any image by guessing id
+		//do everything by hash?
 		Image::updatePaper($id, Input::get('paper'));
 	}
 
 	public function destroy($id)
 	{
 		//fixme anyone can currently delete any image by guessing id
+		//do everything by hash?
 		Image::deleteById($id);
 	}
 
