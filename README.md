@@ -38,15 +38,20 @@ Todo
 -----
 
  1. Refactor all front end
- 2. Final menu design, including:
+  1. Use underscore functions where possible
+ 2. Features:
   * redo, undo
-  * comment
-  * select - move, change shape, change arrow
   * stroke width
   * stroke color
- 3. Fix responsive layout
- 4. Export sets filename
- 5. xBrowser testing
+  * select - move, change shape, change arrow
+  * comment
+ 3. Redesign menu
+ 4. Fix responsive layout
+ 5. Export sets filename
+ 6. xBrowser testing
+ 7. requirejs almond
+ 8. Sort out requirejs not loading in template
+ 9. Fix env, needs to load dist css/js on prod
 
 Questions?
 ----------

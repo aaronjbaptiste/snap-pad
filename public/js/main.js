@@ -17,9 +17,10 @@ require.config({
 
 var App = {
 	Views: {},
-	Models: {}
+	Models: {},
+	Collections: {},
 };
 
 require(["views/app"], function(Main) {
-	new Main();
+	new Main;
 });

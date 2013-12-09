@@ -1,14 +1,14 @@
 {
 	"name": "snap-pad",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"dependencies": {
 		"jquery": "1.10.2",
 		"backbone": "latest",
 		"underscore": "latest",
 		"requirejs": "latest",
 		"raphael": "latest",
-		"raphael.JSON": "https://github.com/ElbertF/Raphael.JSON.git",
-		"raphael.Export": "https://github.com/ElbertF/Raphael.Export.git",
+		"raphael.json": "latest",
+		"raphael.export": "latest",
 		"flashcanvas": "https://github.com/blake-education/flashcanvas.git",
 		"canvg": "https://github.com/nathan-muir/canvg.git"
 	}

@@ -1,4 +1,4 @@
-define(["module", "backbone"], function(module, Backbone) {
+define(['module', 'backbone'], function(module, Backbone) {
 
 	Raphael.fn.arrow = function (x1, y1, x2, y2, asize, strokeWidth, color) {
 		strokeWidth = typeof strokeWidth !== 'undefined' ? strokeWidth : 1;
@@ -16,8 +16,8 @@ define(["module", "backbone"], function(module, Backbone) {
 	App.Views.Main = Backbone.View.extend({
 		el: "body",
 		initialize: function() {
-			var canvas = new App.Views.Canvas();
-			var toolbar = new App.Views.Toolbar({canvas: canvas});
+			this.canvas = new App.Views.Canvas();
+			this.toolbar = new App.Views.Toolbar({canvas: canvas});
 		}
 	});
 
