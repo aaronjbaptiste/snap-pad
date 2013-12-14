@@ -1,4 +1,5 @@
-define(['module', 'backbone', 'models/models', 'collections/collections'], function(module, Backbone) {
+define(['module', 'backbone.raphael', 'raphael', 'raphael.json', 'raphael.export',
+	'models/models', 'collections/collections'], function(module, Backbone, Raphael) {
 
 	Raphael.fn.arrow = function (x1, y1, x2, y2, asize, strokeWidth, color) {
 		strokeWidth = typeof strokeWidth !== 'undefined' ? strokeWidth : 1;
@@ -34,7 +35,7 @@ define(['module', 'backbone', 'models/models', 'collections/collections'], funct
 			"click .delete": "onDelete",
 		},
 		initialize: function(options) {
-			//todo use pub sub instead?
+			//TODO use pub sub instead?
 			this.canvas = options.canvas;
 		},
 		onDrawCircle: function() {
@@ -96,25 +97,40 @@ define(['module', 'backbone', 'models/models', 'collections/collections'], funct
 	App.Views.Canvas = Backbone.View.extend({
 		el : "#drawing-board",
 		initialize: function() {
+			var imageJson = module.config().image;
+			this.paper = Raphael("drawing-board", imageJson.width, imageJson.height);
 			this.collection.on("add", this.addOne, this);
 		},
 		render: function() {
 			var imageJson = module.config().image;
-			var paper = Raphael("drawing-board", imageJson.width, imageJson.height);
-			this.paper = paper;
+			var paper = this.paper;
+
+			this.collection.each(function(shape) {
+				this.addOne(shape);
+			}, this);
+
+			//TODO
+			//populate collection straight from paperJson
+			//need to align model properties with Raphael properties
+			//get the server to generate a paper json for just the image?
+			//then you dont need to send the image path separately
 			
 			if (imageJson.paperJson) {
 				paper.fromJSON(imageJson.paperJson);
 			} else {
-				var image = imageJson.path;
-				paper.image(image, 0, 0, imageJson.width, imageJson.height);
+				this.collection.add({
+					type: "Image",
+					src: imageJson.path,
+					width: imageJson.width,
+					height: imageJson.height
+				});
 			}
 
 			return this;
 		},
 		addOne: function(shape) {
 			var view = App.Views[shape.get("type")];
-			new view({model: shape, el: this.paper}).render();
+			new view({model: shape, paper: this.paper});
 		},
 		draw: function(view, model) {
 			var svg = this.$('svg'),
@@ -140,88 +156,98 @@ define(['module', 'backbone', 'models/models', 'collections/collections'], funct
 		}
 	});
 
-	App.Views.Circle = Backbone.View.extend({
-		initialize: function() {
-			this.model.on("change", function() {
-				this.render();
-			}, this)
-		},
-		render: function() {
+	App.Views.Circle = Backbone.RaphaelView.extend({
+		initialize: function(options) {
 			var model = this.model;
-			this.remove();
-			this.shape = this.el.ellipse(
+			model.on("change", this.render, this);
+			var circle = options.paper.ellipse(
 				model.get("x"), 
 				model.get("y"), 
-				model.get("rx"), 
+				model.get("rx"),
 				model.get("ry")
-			);
-			this.shape.attr("stroke", this.model.get("color"));
-			this.shape.attr("stroke-width", this.model.get("stroke"));
-			return this;
+			).attr({
+				"stroke": model.get("color"),
+				"stroke-width": model.get("stroke"),
+			});
+	        this.setElement(circle);
 		},
-		remove: function() {
-			if(typeof this.shape != "undefined"){
-				this.shape.remove();
-			}
+		render: function() {
+			var circle = this.el;
+	        var model = this.model;
+	        circle.attr({
+	            cx: model.get("x"),
+	            cy: model.get("y"),
+	            rx: model.get("rx"),
+	            ry: model.get("ry"),
+	            stroke: model.get("color"),
+	            "stroke-width": model.get("stroke")
+	        });
+			return this;
 		}
 	});
 
-	App.Views.Square = Backbone.View.extend({
-		initialize: function() {
-			this.model.on("change", function() {
-				this.render();
-			}, this)
-		},
-		render: function() {
+	App.Views.Square = Backbone.RaphaelView.extend({
+		initialize: function(options) {
 			var model = this.model;
-			this.remove();
-			this.shape = this.el.rect(
+			model.on("change", this.render, this);
+			var rect = options.paper.rect(
 				model.get("x"), 
 				model.get("y"), 
-				model.get("width"), 
+				model.get("width"),
 				model.get("height")
-			);
-			this.shape.attr("stroke", this.model.get("color"));
-			this.shape.attr("stroke-width", this.model.get("stroke"));
-			return this;
+			).attr({
+				"stroke": model.get("color"),
+				"stroke-width": model.get("stroke"),
+			});
+	        this.setElement(rect);
 		},
-		remove: function() {
-			if(typeof this.shape != "undefined"){
-				this.shape.remove();
-			}
+		render: function() {
+			var rect = this.el;
+	        var model = this.model;
+	        rect.attr({
+	            x: model.get("x"),
+	            y: model.get("y"),
+	            width: model.get("width"),
+	            height: model.get("height"),
+	            stroke: model.get("color"),
+	            "stroke-width": model.get("stroke")
+	        });
+			return this;
 		}
 	});
 
-	App.Views.FreeDraw = Backbone.View.extend({
-		initialize: function() {
-			this.model.on("change", function() {
-				this.render();
-			}, this);
-			this.shape = this.el.path(this.model.get("path"));
+	App.Views.FreeDraw = Backbone.RaphaelView.extend({
+		initialize: function(options) {
+			var model = this.model;
+			model.on("change", this.render, this);
+			var path = options.paper.path(this.model.get("path")).attr({
+				stroke: model.get("color"),
+				"stroke-width": model.get("stroke"),
+			});
+	        this.setElement(path);
 		},
 		render: function() {
-			var model = this.model;
-			var path = this.model.get("path");
-			this.shape.attr({
-				"path": path,
-				"stroke": model.get('color'), 
+			var path = this.el;
+	        var model = this.model;
+	        path.attr({
+	            path: model.get('path'),
+				stroke: model.get('color'), 
 				"stroke-width": model.get('stroke')
-			});
+	        });
 			return this;
 		},
-		remove: function() {}
 	});
 
 	App.Views.Arrow = Backbone.View.extend({
-		initialize: function() {
-			this.model.on("change", function() {
-				this.render();
-			}, this)
+		initialize: function(options) {
+			this.model.on("change", this.render, this);
+			this.paper = options.paper;
+			this.render();
 		},
 		render: function() {
 			var model = this.model;
 			this.remove();
-	        this.shape = this.el.arrow(
+	        this.shape = this.paper.arrow(
 	        	model.get("tx"), 
 	        	model.get("ty"), 
 	        	model.get("ax"), 
@@ -230,6 +256,7 @@ define(['module', 'backbone', 'models/models', 'collections/collections'], funct
 	        	model.get("stroke"), 
 	        	model.get("color")
         	);
+        	this.setElement(this.shape);
         	return this;
 		},
 		remove: function() {
@@ -237,6 +264,32 @@ define(['module', 'backbone', 'models/models', 'collections/collections'], funct
 				this.shape[0].remove();
 				this.shape[1].remove();
 			}
+		}
+	});
+
+	App.Views.Image = Backbone.RaphaelView.extend({
+		initialize: function(options) {
+			var model = this.model;
+			var image = options.paper.image(
+				model.get("src"),
+				model.get("x"),
+				model.get("y"),
+				model.get("width"),
+				model.get("height")
+			);
+			this.setElement(image);
+			model.on("change", this.render, this);
+		},
+		render: function() {
+			var model = this.model;
+			this.el.attr({
+				"src": model.get("src"),
+				"x": model.get("x"),
+				"y": model.get("y"),
+				"width": model.get("width"),
+				"height": model.get("height")
+			});
+			return this;
 		}
 	});
 

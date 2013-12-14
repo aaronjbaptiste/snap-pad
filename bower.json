@@ -9,6 +9,7 @@
 		"raphael": "latest",
 		"raphael.json": "latest",
 		"raphael.export": "latest",
+		"backbone.raphael-amd": "latest",
 		"flashcanvas": "https://github.com/blake-education/flashcanvas.git",
 		"canvg": "https://github.com/nathan-muir/canvg.git"
 	}

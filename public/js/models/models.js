@@ -160,6 +160,17 @@ define(['module', 'backbone'], function(module, Backbone) {
         }
     });
 
+    App.Models.Image = Backbone.Model.extend({
+        defaults: {
+            type: "Image",
+            src: "",
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0
+        }
+    });
+
     return App.Models;
 
 });
