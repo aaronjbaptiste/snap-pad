@@ -50,7 +50,7 @@ Todo
  5. Export sets filename
  6. xBrowser testing
  7. requirejs almond
- 8. Sort out requirejs not loading in template
+ 8. Sort out requirejs not loading raphaeljs stuf
  9. Fix env, needs to load dist css/js on prod
 
 Questions?

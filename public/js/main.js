@@ -5,7 +5,7 @@ require.config({
 		"backbone": "vendor/backbone/backbone"
 	},
 	shim: {
-		"underscore": {
+		"underscore": {	
 			exports: "_"
 		},
 		"backbone": {
@@ -21,6 +21,6 @@ var App = {
 	Collections: {},
 };
 
-require(["views/app"], function(Main) {
+require(["views/views"], function(Main) {
 	new Main;
 });

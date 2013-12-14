@@ -31,7 +31,7 @@
     <script>
       var require = {
         config: {
-          'views/app': {
+          'views/views': {
             'image' : {{ $image }}
           }
         }
