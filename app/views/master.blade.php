@@ -5,7 +5,7 @@
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Share and annotate images with anyone, in real-time, for free.">
+        <meta name="description" content="Annotate and share images with anyone, in real-time, for free.">
 
         <link href="http://fonts.googleapis.com/css?family=Lato|Lobster" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="/css/style.css">
@@ -15,7 +15,7 @@
         <header>
           <div class="branding">
             <a class="logo" href="/">Snap Pad</a>
-            <div class="slogan">Share and annotate images with anyone, <wbr>in real-time, for free.</div>
+            <div class="slogan">Annotate and share images with anyone, <wbr>in real-time, for free.</div>
           </div>
   
           @yield('toolbar')
