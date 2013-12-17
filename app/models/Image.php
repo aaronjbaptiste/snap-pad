@@ -74,7 +74,7 @@ class Image extends BaseModel {
 
     public static function byHash($hash)
     {
-        $image = static::select('id', 'hash', 'width', 'height', 'path')->whereHash($hash)->first();
+        $image = static::select('id', 'hash', 'width', 'height', 'path', 'paper')->whereHash($hash)->first();
 
         if (empty($image)) {
             throw new Illuminate\Database\Eloquent\ModelNotFoundException;
