@@ -1,6 +1,9 @@
 define(['module', 'backbone.raphael', 'raphael', 'raphael.json', 'raphael.export',
 	'models/models', 'collections/collections'], function(module, Backbone, Raphael) {
 
+	/* utility */
+	var evt = _.extend({}, Backbone.Events);
+
 	Raphael.fn.arrow = function (x1, y1, x2, y2, asize, strokeWidth, color) {
 		strokeWidth = typeof strokeWidth !== 'undefined' ? strokeWidth : 1;
 		color = typeof color !== 'undefined' ? color : "#000000";
@@ -11,48 +14,27 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.json', 'raphael.export
 	    arrowPath.attr({stroke: color,"stroke-width": strokeWidth});
 	    var linePath = this.path("M" + x1 + " " + y1 + " L" + x2 + " " + y2);
 	    linePath.attr({stroke: color,"stroke-width": strokeWidth});
+
 	    return [linePath,arrowPath];
 	}
 
 	App.Views.Main = Backbone.View.extend({
 		el: "body",
 		initialize: function() {
-			this.canvas = new App.Views.Canvas({collection: new App.Collections.Canvas});
-			this.canvas.render();
-			this.toolbar = new App.Views.Toolbar({canvas: this.canvas});
-		}
-	});
+			var paper = module.config().image.paperJson;
 
-	App.Views.Toolbar = Backbone.View.extend({
-		el: "#toolbar",
-		events: {
-			"click .drawCircle": "onDrawCircle",
-			"click .drawSquare": "onDrawSquare",
-			"click .drawFree": "onDrawFree",
-			"click .drawArrow": "onDrawArrow",
-			"click .save": "onSave",
-			"click .export": "onExport",
-			"click .delete": "onDelete",
+			this.canvas = new App.Views.Canvas({
+				collection: new App.Collections.Canvas(paper)
+			});
+			this.toolbar = new App.Views.Toolbar();
+
+			evt.on("save", this.save, this);
+			evt.on("export", this.export, this);
+			evt.on("delete", this.delete, this);
 		},
-		initialize: function(options) {
-			//TODO use pub sub instead?
-			this.canvas = options.canvas;
-		},
-		onDrawCircle: function() {
-			this.canvas.draw(App.Views.Circle, App.Models.Circle);
-		},
-		onDrawSquare: function() {
-			this.canvas.draw(App.Views.Square, App.Models.Square);
-		},
-		onDrawFree: function() {
-			this.canvas.draw(App.Views.FreeDraw, App.Models.FreeDraw);
-		},
-		onDrawArrow: function() {
-			this.canvas.draw(App.Views.Arrow, App.Models.Arrow);
-		},
-		onSave: function() {
+		save: function() {
 			var paperData = {
-				paper: this.canvas.paper.toJSON()
+				paper: this.canvas.collection.toJSON()
 			};
 
 			$.ajax({
@@ -62,7 +44,7 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.json', 'raphael.export
 			  dataType: "json"
 			});
 		},
-		onExport: function() {
+		export: function() {
 			var svg = this.canvas.paper.toSVG();
 			var canvas = $('<canvas>')[0];
 						
@@ -81,9 +63,9 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.json', 'raphael.export
   				}
 			});
 
-			//fixme save.php is failing? I think that used to rename it
+			//FIXME save.php is failing? I think that used to rename it
 		},
-		onDelete: function() {
+		delete: function() {
 			$.ajax({
 			  type: "DELETE",
 			  url: "/image/" + module.config().image.id,
@@ -94,45 +76,61 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.json', 'raphael.export
 		}
 	});
 
+	App.Views.Toolbar = Backbone.View.extend({
+		el: "#toolbar",
+		events: {
+			"click .drawCircle": "onDrawCircle",
+			"click .drawSquare": "onDrawSquare",
+			"click .drawFree": "onDrawFree",
+			"click .drawArrow": "onDrawArrow",
+			"click .save": "onSave",
+			"click .export": "onExport",
+			"click .delete": "onDelete",
+		},
+		onDrawCircle: function() {
+			evt.trigger("draw", "Circle");
+		},
+		onDrawSquare: function() {
+			evt.trigger("draw", "Square");
+		},
+		onDrawFree: function() {
+			evt.trigger("draw", "FreeDraw");
+		},
+		onDrawArrow: function() {
+			evt.trigger("draw", "Arrow");
+		},
+		onSave: function() {
+			evt.trigger("save");
+		},
+		onExport: function() {
+			evt.trigger("export");
+		},
+		onDelete: function() {
+			evt.trigger("delete");
+		}
+	});
+
 	App.Views.Canvas = Backbone.View.extend({
 		el : "#drawing-board",
 		initialize: function() {
 			var imageJson = module.config().image;
 			this.paper = Raphael("drawing-board", imageJson.width, imageJson.height);
 			this.collection.on("add", this.addOne, this);
+			evt.on("draw", this.drawMode, this);
+			this.render();
 		},
 		render: function() {
-			var imageJson = module.config().image;
-			var paper = this.paper;
-
 			this.collection.each(function(shape) {
 				this.addOne(shape);
 			}, this);
-
-			//TODO
-			//populate collection straight from paperJson
-			//need to align model properties with Raphael properties
-			//get the server to generate a paper json for just the image?
-			//then you dont need to send the image path separately
-			
-			if (imageJson.paperJson) {
-				paper.fromJSON(imageJson.paperJson);
-			} else {
-				this.collection.add({
-					type: "Image",
-					src: imageJson.path,
-					width: imageJson.width,
-					height: imageJson.height
-				});
-			}
-
 			return this;
 		},
 		addOne: function(shape) {
 			var view = App.Views[shape.get("type")];
 			new view({model: shape, paper: this.paper});
+			return this;
 		},
-		draw: function(view, model) {
+		drawMode: function(type) {
 			var svg = this.$('svg'),
 				that = this;
 
@@ -146,7 +144,8 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.json', 'raphael.export
 			  	var startX = e.pageX - parentOffset.left;
 			  	var startY = e.pageY - parentOffset.top;
 
-			  	var shape = new model().start(startX, startY);
+			  	var shape = new App.Models[type];
+			  	shape.start(startX, startY);
 			  	that.collection.add(shape);
 
 				svg.mousemove(function(e) {

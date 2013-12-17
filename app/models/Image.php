@@ -74,7 +74,7 @@ class Image extends BaseModel {
 
     public static function byHash($hash)
     {
-        $image = static::whereHash($hash)->first();
+        $image = static::select('id', 'hash', 'width', 'height', 'path')->whereHash($hash)->first();
 
         if (empty($image)) {
             throw new Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -90,8 +90,12 @@ class Image extends BaseModel {
         if (isset($image->paper)) {
             $paperPath = public_path() . $image->paper;
             if (file_exists($paperPath)) {
-                $image->paperJson = file_get_contents($paperPath);
+                $image->paperJson = json_decode( file_get_contents($paperPath) );
             }
+        } else {
+            //Starter template
+            $image->paperJson = '[{"type":"Image","src":"' . $image->path . '","width":' . $image->width .',"height":' . $image->height .'}]';
+            $image->paperJson = json_decode($image->paperJson);
         }
         
         return $image;

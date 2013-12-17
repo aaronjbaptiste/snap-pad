@@ -37,21 +37,19 @@ Make sure your web document root allows read and write access to apache. See [La
 Todo
 -----
 
- 1. Refactor all front end
-  1. Use underscore functions where possible
- 2. Features:
+ 1. Features:
   * redo, undo
   * stroke width
   * stroke color
   * select - move, change shape, change arrow
   * comment
- 3. Redesign menu
- 4. Fix responsive layout
- 5. Export sets filename
- 6. xBrowser testing
- 7. requirejs almond
- 8. Sort out requirejs not loading raphaeljs stuf
- 9. Fix env, needs to load dist css/js on prod
+ 2. Redesign menu
+ 3. Fix responsive layout
+ 4. Export sets filename
+ 5. xBrowser testing
+ 6. requirejs almond
+ 7. Sort out requirejs not loading canvg stuff
+ 8. Fix env, needs to load dist css/js on prod
 
 Questions?
 ----------

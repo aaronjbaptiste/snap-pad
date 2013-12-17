@@ -16,8 +16,7 @@ class ImageController extends BaseController {
 
 	public function store()
 	{
-
-		$image = Image::addNew(Input::file('image'));
+		$image = Image::addNew( Input::file('image') );
 
 		if ($image) {
 			return Redirect::action('ImageController@show', array($image->hash));	
@@ -30,7 +29,7 @@ class ImageController extends BaseController {
 	{
 		//fixme anyone can currently update any image by guessing id
 		//do everything by hash?
-		Image::updatePaper($id, Input::get('paper'));
+		Image::updatePaper($id, json_encode(Input::get('paper'), JSON_NUMERIC_CHECK) );
 	}
 
 	public function destroy($id)
