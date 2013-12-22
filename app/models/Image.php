@@ -57,9 +57,9 @@ class Image extends BaseModel {
         return false;
     }
 
-    public static function deleteById($id)
+    public static function deleteByHash($hash)
     {
-        $image = static::findOrFail($id);
+        $image = static::whereHash($hash)->firstOrFail();
 
         if (isset($image->paper)) {
             $paperPath = public_path() . $image->paper;
@@ -101,7 +101,7 @@ class Image extends BaseModel {
         return $image;
     }
 
-    public static function updatePaper($id, $paper)
+    public static function savePaper($hash, $paper)
     {
         $localPath = "/uploaded/paper/";
         $destination = public_path() . $localPath;
@@ -112,7 +112,7 @@ class Image extends BaseModel {
         //perhaps use htmlentities?
         file_put_contents($destination . $fileName, $paper);
 
-        $image = static::findOrFail($id);
+        $image = static::whereHash($hash)->firstOrFail();
         $image->paper = $localPath . $fileName;
         $image->save();
     }

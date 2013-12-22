@@ -6,7 +6,10 @@ require.config({
 		"raphael": "vendor/raphael/raphael",
 		"raphael.json": "vendor/raphael.json/raphael.json",
 		"raphael.export": "vendor/raphael.export/raphael.export",
-		"backbone.raphael": "vendor/backbone.raphael-amd/backbone.raphael"
+		"backbone.raphael": "vendor/backbone.raphael-amd/backbone.raphael",
+		"backbone.undo": "vendor/backbone.undo/Backbone.Undo",
+		"jquery.shortcut": "vendor/jquery.shortcut/jquery.Shortcut",
+		"spectrum": "vendor/spectrum/spectrum",
 	},
 	shim: {
 		"underscore": {	
@@ -21,6 +24,18 @@ require.config({
 		},
 		"raphael.export": {
 			deps: ["raphael"]
+		},
+		"backbone.undo": {
+			deps: ["backbone"],
+			exports: "Backbone"
+		},
+		"jquery.shortcut": {
+			deps: ["jquery"],
+			exports: "$"
+		},
+		"spectrum": {
+			deps: ["jquery"],
+			exports: "$"
 		}
 	}
 });
@@ -32,5 +47,5 @@ var App = {
 };
 
 require(["views/views"], function(Main) {
-	new Main;
+	window.main = new Main;
 });

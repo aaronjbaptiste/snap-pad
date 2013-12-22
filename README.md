@@ -38,18 +38,15 @@ Todo
 -----
 
  1. Features:
-  * redo, undo
-  * stroke width
-  * stroke color
-  * select - move, change shape, change arrow
   * comment
- 2. Redesign menu
- 3. Fix responsive layout
- 4. Export sets filename
- 5. xBrowser testing
- 6. requirejs almond
- 7. Sort out requirejs not loading canvg stuff
- 8. Fix env, needs to load dist css/js on prod
+  * select - move, change shape, change arrow
+ 2. xBrowser testing
+ 3. Redesign menu
+ 4. Fix responsive layout
+ 5. Fix env, needs to load dist css/js on prod
+ 6. Export sets filename
+ 7. requirejs almond
+ 8. Sort out requirejs not loading canvg stuff
 
 Questions?
 ----------

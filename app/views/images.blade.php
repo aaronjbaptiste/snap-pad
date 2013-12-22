@@ -7,7 +7,7 @@
         <ul class="list-group">
             @foreach ($images as $image)
                 <li class = "list-group-item">
-                    {{ link_to_route('image.show', $image->originalName, [$image->hash]) }}
+                    {{ link_to_route('home.show', $image->originalName, [$image->hash]) }}
                 </li>
             @endforeach
         </ul> 

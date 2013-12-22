@@ -2,6 +2,17 @@
 
 @section('toolbar')
     <ul id="toolbar">
+        <input type='text' id="color" />
+        <select id="stroke">
+          <option value="1">1px</option>
+          <option value="2">2px</option>
+          <option value="3" selected="selected">3px</option>
+          <option value="4">4px</option>
+          <option value="8">8px</option>
+          <option value="12">12px</option>
+          <option value="16">16px</option>
+          <option value="32">32px</option>
+        </select>
         <button type="button" class="drawCircle btn btn-default">Circle</button>
         <button type="button" class="drawSquare btn btn-default">Square</button>
         <button type="button" class="drawFree btn btn-default">Free</button>

@@ -1,23 +1,39 @@
 define(['module', 'backbone'], function(module, Backbone) {
 
-    var config = App.Models.Defaults = {
+    App.Models.Defaults = {
         stroke: 3,
-        color: '#ff0000',
+        color: '#000000',
     };
 
+    App.Models.Main = Backbone.Model.extend({
+        urlRoot: 'image',
+        idAttribute: 'hash',
+        initialize: function(options) {
+            this.set("paperJson", new App.Collections.Canvas(options.paperJson));
+        },
+        parse: function(response) {
+            var canvas = this.get("paperJson");
+            console.log("set canvas");
+            canvas.set(response.paperJson);
+        }
+    });
+
     App.Models.Circle = Backbone.Model.extend({
-        defaults: {
-            type: "Circle",
-            pivotX: 0,
-            pivotY: 0,
-            x: 1,
-            y: 1,
-            rx: 1,
-            ry: 1,
-            stroke: config.stroke,
-            color: config.color,
+        defaults: function() {
+            return {
+                type: "Circle",
+                pivotX: 0,
+                pivotY: 0,
+                x: 1,
+                y: 1,
+                rx: 1,
+                ry: 1,
+                stroke: App.Models.Defaults.stroke,
+                color: App.Models.Defaults.color,
+            };
         },
         start: function(x, y) {
+            console.log(App.Models.Defaults.color);
             this.set({
                 pivotX: x,
                 pivotY: y,
@@ -58,16 +74,18 @@ define(['module', 'backbone'], function(module, Backbone) {
     });
 
     App.Models.Square = Backbone.Model.extend({
-        defaults: {
-            type: "Square",
-            pivotX: 0,
-            pivotY: 0,
-            x: 1,
-            y: 1,
-            width: 1,
-            height: 1,
-            stroke: config.stroke,
-            color: config.color,
+        defaults: function() {
+            return {
+                type: "Square",
+                pivotX: 0,
+                pivotY: 0,
+                x: 1,
+                y: 1,
+                width: 1,
+                height: 1,
+                stroke: App.Models.Defaults.stroke,
+                color: App.Models.Defaults.color
+            }
         },
         start: function(x, y) {
             this.set({
@@ -110,14 +128,16 @@ define(['module', 'backbone'], function(module, Backbone) {
     });
 
     App.Models.Arrow = Backbone.Model.extend({
-        defaults: {
-            type: "Arrow",
-            tx: 0,
-            ty: 0,
-            ax: 1,
-            ay: 1,
-            stroke: config.stroke,
-            color: config.color,
+        defaults: function() {
+            return {
+                type: "Arrow",
+                tx: 0,
+                ty: 0,
+                ax: 1,
+                ay: 1,
+                stroke: App.Models.Defaults.stroke,
+                color: App.Models.Defaults.color,
+            };
         },
         start: function(x, y) {
             this.set({
@@ -142,8 +162,8 @@ define(['module', 'backbone'], function(module, Backbone) {
             return {
                 type: "FreeDraw",
                 path: new Array(),
-                stroke: config.stroke,
-                color: config.color,
+                stroke: App.Models.Defaults.stroke,
+                color: App.Models.Defaults.color,
             }
         },
         start: function(x, y) {

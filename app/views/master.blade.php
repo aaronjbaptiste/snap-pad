@@ -9,6 +9,7 @@
 
         <link href="http://fonts.googleapis.com/css?family=Lato|Lobster" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="/css/style.css">
+        <link rel='stylesheet' href='/js/vendor/spectrum/spectrum.css'>
     </head>
     <body>
 

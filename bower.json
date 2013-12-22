@@ -11,6 +11,9 @@
 		"raphael.export": "latest",
 		"backbone.raphael-amd": "latest",
 		"flashcanvas": "https://github.com/blake-education/flashcanvas.git",
-		"canvg": "https://github.com/nathan-muir/canvg.git"
+		"canvg": "https://github.com/nathan-muir/canvg.git",
+		"backbone.undo": "https://github.com/osartun/Backbone.Undo.js.git",
+		"jquery.shortcut": "https://github.com/osartun/jQuery.Shortcut.js.git",
+		"spectrum": "latest"
 	}
 }
