@@ -37,12 +37,11 @@ Make sure your web document root allows read and write access to apache. See [La
 Todo
 -----
 
-* comments
+* Redesign menu
+* comments - add to shapes
 * transform, move without selector arrow
 * undo transformations
 * xBrowser testing
-* Redesign menu
-* Fix responsive layout
 * Fix env, needs to load dist css/js on prod
 * Export sets filename
 * requirejs almond

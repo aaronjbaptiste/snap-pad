@@ -28,7 +28,7 @@
         </div>
 
         <footer>
-          copyright &copy;
+          Created by
           <a href="https://twitter.com/aaronjbaptiste" title="Twitter link">
              @aaronjbaptiste
           </a>
