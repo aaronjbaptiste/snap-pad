@@ -47,5 +47,5 @@ var App = {
 };
 
 require(["views/views"], function(Main) {
-	window.main = new Main;
+	window.main = new Main();
 });

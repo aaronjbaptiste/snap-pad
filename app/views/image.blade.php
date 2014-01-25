@@ -1,30 +1,35 @@
 @extends('master')
 
 @section('toolbar')
-    <ul id="toolbar">
-        <input type='text' id="color" />
-        <select id="stroke">
-          <option value="1">1px</option>
-          <option value="2">2px</option>
-          <option value="3" selected="selected">3px</option>
-          <option value="4">4px</option>
-          <option value="8">8px</option>
-          <option value="12">12px</option>
-          <option value="16">16px</option>
-          <option value="32">32px</option>
-        </select>
-        <button type="button" class="drawCircle btn btn-default">Circle</button>
-        <button type="button" class="drawSquare btn btn-default">Square</button>
-        <button type="button" class="drawFree btn btn-default">Free</button>
-        <button type="button" class="drawArrow btn btn-default">Arrow</button>
-        <button type="button" class="save btn btn-default">Save</button>
-        <button type="button" class="export btn btn-default">Export</button>
-        <button type="button" class="delete btn btn-danger">Delete</button>
-    </ul>
+    <div id="fixed-header">
+      <ul id="toolbar">
+          <input type='text' id="color" />
+          <select id="stroke">
+            <option value="1">1px</option>
+            <option value="2">2px</option>
+            <option value="3" selected="selected">3px</option>
+            <option value="4">4px</option>
+            <option value="8">8px</option>
+            <option value="12">12px</option>
+            <option value="16">16px</option>
+            <option value="32">32px</option>
+          </select>
+          <button type="button" class="drawCircle btn btn-default">Circle</button>
+          <button type="button" class="drawSquare btn btn-default">Square</button>
+          <button type="button" class="drawFree btn btn-default">Free</button>
+          <button type="button" class="drawArrow btn btn-default">Arrow</button>
+          <button type="button" class="comment btn btn-default">Comment</button>
+          <button type="button" class="save btn btn-default">Save</button>
+          <button type="button" class="export btn btn-default">Export</button>
+          <button type="button" class="delete btn btn-danger">Delete</button>
+      </ul>
+    </div>
 @stop
 
 @section('content')
-    <div id="drawing-board"></div>
+    <div id="drawing-board">
+      <div id="threads"></div>
+    </div>
 @stop
 
 @section('scripts')
@@ -37,6 +42,7 @@
     <script src="/js/vendor/canvg/canvg.js"></script> 
 
     <script>
+      console.log( {{ $image }} );
       var require = {
         config: {
           'views/views': {

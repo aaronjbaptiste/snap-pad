@@ -18,22 +18,53 @@ header, footer {
 }
 
 header {
-	height: 97px;
 	background-color: #ffffff;
-	padding-top: 9px;
+	min-height: 51px;
+}
+
+#toolbar {
+	display: none;
+}
+
+header.toolbar .branding {
+	float: left;
 }
 
 header .branding {
-	float: left;
-	margin-left: 25px;
+	position: relative;
+	z-index: 110;
+	padding-top: 3px;
+	background: #ffffff;
+}
+
+header #fixed-header {
+	position: fixed;
+	text-align: center;
+	width: 100%;
+	z-index: 100;
 }
 
 header #toolbar {
-	float:right;
 	background: #3498db;
-	height: 100%;
 	padding: 10px;
-	margin: 0;
+	width: 75%;
+	margin-left: 180px;
+	max-width: 890px;
+	min-width: 421px;
+	height: 51px;
+}
+
+#toolbar > * {
+	width: 9%;
+	max-width: 90px;
+	min-width: 35px;
+}
+
+#toolbar > .padding {
+	width: 173px;
+	height: 1px;
+	float: left;
+	max-width: 173px;
 }
 
 .logo {
@@ -44,8 +75,13 @@ header #toolbar {
 	font-family: 'Lobster', cursive;
 }
 
-a.logo {
+a.logo, a.logo:visited {
 	text-decoration: none;
+	color: #000000;
+}
+
+a.logo:hover {
+	color: #3498db;
 }
 
 .slogan {
@@ -63,12 +99,50 @@ a.logo {
 }
 
 #drawing-board {
-	width: 100%;
-}
-
-#drawing-board svg{
 	display: block;
 	margin: 0 auto;
+	position: relative;
+}
+
+#drawing-board #threads {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 50;
+}
+
+#drawing-board svg {
+	z-index: 10;
+}
+
+.thread {
+	background: #ffffff;
+	position: absolute;
+	display: block;
+	padding: 8px;
+	text-align: left;
+}
+
+.thread textarea {
+	width: 200px;
+	float: left;
+	clear: both;
+}
+
+.thread ul {
+	width: 200px;
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+.thread li {
+	padding: 5px 0;
+}
+
+.thread button {
+	margin-top: 10px;
+	width: 100%;
 }
 
 #main.container {
@@ -113,6 +187,7 @@ footer {
     left: 0;
     bottom: 0;
     width: 100%;
+    z-index: 100;
 }
 
 footer a, footer a:hover {
@@ -128,4 +203,17 @@ footer a, footer a:hover {
 	footer {
 		position: static;
 	}
+}
+
+@media only screen and (max-width : 785px) {
+
+	header.toolbar #toolbar {
+		width: 100%;
+		margin-left: 0;
+	}
+
+	header.toolbar .branding, header.toolbar #toolbar .sp-dd {
+		display: none;
+	}
+
 }

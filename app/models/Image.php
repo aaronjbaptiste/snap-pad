@@ -2,7 +2,7 @@
 
 class Image extends BaseModel {
 
-    protected $table = 'images';
+    protected $table = 'image';
     protected static $rules = [
         'originalName' => 'required',
         'fileName'     => 'required',
@@ -69,12 +69,14 @@ class Image extends BaseModel {
         $imagePath = public_path() . $image->path;
         unlink($imagePath);
 
+        //delete threads and comments too
+
         $image->delete();
     }
 
     public static function byHash($hash)
     {
-        $image = static::select('id', 'hash', 'width', 'height', 'path', 'paper')->whereHash($hash)->first();
+        $image = static::select('id', 'hash', 'width', 'height', 'path', 'paper')->whereHash($hash)->with("threads", "threads.comments")->first();
 
         if (empty($image)) {
             throw new Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -115,6 +117,10 @@ class Image extends BaseModel {
         $image = static::whereHash($hash)->firstOrFail();
         $image->paper = $localPath . $fileName;
         $image->save();
+    }
+
+    public function threads() {
+        return $this->hasMany('Thread');
     }
 
 }

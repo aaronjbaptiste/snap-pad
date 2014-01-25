@@ -37,19 +37,32 @@ Make sure your web document root allows read and write access to apache. See [La
 Todo
 -----
 
- 1. Features:
-  * comment
-  * select - move, change shape, change arrow
- 2. xBrowser testing
- 3. Redesign menu
- 4. Fix responsive layout
- 5. Fix env, needs to load dist css/js on prod
- 6. Export sets filename
- 7. requirejs almond
- 8. Sort out requirejs not loading canvg stuff
+* comments
+* transform, move without selector arrow
+* undo transformations
+* xBrowser testing
+* Redesign menu
+* Fix responsive layout
+* Fix env, needs to load dist css/js on prod
+* Export sets filename
+* requirejs almond
+* Sort out requirejs not loading canvg stuff
+* Upload / save progress bar
+* Title
+* Created / modified date
+* Move / resize image
+* Fit to screen width / Zoom
+* Gravatar / fb, tw, gl integration for avatar
+* Share options - like no annotations? no comments? password
+* auto save on change
+* auto update for new changes
+* show who else is viewing - guest or known user, colour coded like google
+* shadow on shapes so colours aren't lost
+* get rid of circles?
 
 Questions?
 ----------
 
 Contact me at gravityapple@gmail.com
+
 

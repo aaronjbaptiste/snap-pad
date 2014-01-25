@@ -85,7 +85,7 @@ define(['module', 'backbone'], function(module, Backbone) {
                 height: 1,
                 stroke: App.Models.Defaults.stroke,
                 color: App.Models.Defaults.color
-            }
+            };
         },
         start: function(x, y) {
             this.set({
@@ -161,10 +161,10 @@ define(['module', 'backbone'], function(module, Backbone) {
         defaults: function () {
             return {
                 type: "FreeDraw",
-                path: new Array(),
+                path: [],
                 stroke: App.Models.Defaults.stroke,
                 color: App.Models.Defaults.color,
-            }
+            };
         },
         start: function(x, y) {
             var path = this.get("path");
@@ -177,6 +177,35 @@ define(['module', 'backbone'], function(module, Backbone) {
             path[path.length] =["L", x, y];
             this.set(path, path);
             return this;
+        }
+    });
+
+    App.Models.Thread = Backbone.Model.extend({
+        url: "thread",
+        defaults: function() {
+            return {
+                x: 1,
+                y: 1,
+                color: App.Models.Defaults.color,
+                comments: []
+            };
+        },
+        initialize: function(data) {
+            var comments = this.get("comments");
+            var newComments = [];
+            var that = this;
+            $.each(comments, function(index, comment) {
+                console.log(comment);
+                newComments.push( new App.Models.Comment(comment) );
+            });
+            this.set("comments", newComments);
+        }
+    });
+
+    App.Models.Comment = Backbone.Model.extend({
+        url: "comment",
+        defaults: {
+            body: ""
         }
     });
 

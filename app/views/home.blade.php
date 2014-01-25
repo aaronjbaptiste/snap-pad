@@ -1,5 +1,9 @@
 @extends('master')
 
+@section('slogan')
+    <div class="slogan">Annotate and share images with anyone, for free.</div>
+@stop
+
 @section('content')
     <div id="main" class="container">
         {{ Form::open(['route' => 'image.store', 'files' => true, 'class' => 'new-image']) }}

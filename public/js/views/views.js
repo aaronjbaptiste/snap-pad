@@ -8,26 +8,26 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
 	Backbone.UndoManager.removeUndoType("change");
 
 	$.Shortcut.on("ctrl + Z", function (e) {
-	    undoMan.undo(true);
+		undoMan.undo(true);
 	});
 
 	$.Shortcut.on("ctrl + shift + Z", function (e) {
-	    undoMan.redo(true);
+		undoMan.redo(true);
 	});
 
 	Raphael.fn.arrow = function (x1, y1, x2, y2, asize, strokeWidth, color) {
 		strokeWidth = typeof strokeWidth !== 'undefined' ? strokeWidth : 1;
 		color = typeof color !== 'undefined' ? color : "#000000";
 
-	    var angle = Math.atan2(x1-x2,y2-y1);
-	    angle = (angle / (2 * Math.PI)) * 360;
-	    var arrowPath = this.path("M" + x2 + " " + y2 + " L" + (x2 - asize) + " " + (y2 - asize) + " L" + (x2 - asize) + " " + (y2 + asize) + " L" + x2 + " " + y2 ).attr("fill",color).rotate((90+angle),x2,y2);
-	    arrowPath.attr({stroke: color,"stroke-width": strokeWidth});
-	    var linePath = this.path("M" + x1 + " " + y1 + " L" + x2 + " " + y2);
-	    linePath.attr({stroke: color,"stroke-width": strokeWidth});
+		var angle = Math.atan2(x1-x2,y2-y1);
+		angle = (angle / (2 * Math.PI)) * 360;
+		var arrowPath = this.path("M" + x2 + " " + y2 + " L" + (x2 - asize) + " " + (y2 - asize) + " L" + (x2 - asize) + " " + (y2 + asize) + " L" + x2 + " " + y2 ).attr("fill",color).rotate((90+angle),x2,y2);
+		arrowPath.attr({stroke: color,"stroke-width": strokeWidth});
+		var linePath = this.path("M" + x1 + " " + y1 + " L" + x2 + " " + y2);
+		linePath.attr({stroke: color,"stroke-width": strokeWidth});
 
-	    return [linePath,arrowPath];
-	}
+		return [linePath,arrowPath];
+	};
 
 	App.Views.Main = Backbone.View.extend({
 		el: "body",
@@ -40,16 +40,27 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
 
 			this.render();
 
+			this.$('#drawing-board').css({
+				width: module.config().image.width,
+				height: module.config().image.height
+			});
+
 			model.on("change:paperJson", function() {
 				console.log("changed");
 			}, this);
 
+			this.threads = new App.Views.Threads({ 
+				collection: new App.Collections.Threads(module.config().image.threads)
+			}).render();
+
 			// setInterval(function() {
-			// 	model.fetch();
+			// model.fetch();
 			// }, 3000);
 		},
 		render: function() {
 			console.log("render main");
+			this.$('header').addClass('toolbar');
+			this.$('header #toolbar').show();
 			this.canvas = new App.Views.Canvas({
 				collection: this.model.get("paperJson")
 			});
@@ -58,7 +69,7 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
 		},
 		delete: function() {
 			this.model.destroy({wait: true, success: function () {
-		  		location.href='/';
+  			location.href='/';
 			}});
 		},
 		export: function() {
@@ -91,6 +102,7 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
 			"click .drawSquare": "onDrawSquare",
 			"click .drawFree": "onDrawFree",
 			"click .drawArrow": "onDrawArrow",
+			"click .comment": "onComment",
 			"click .save": "onSave",
 			"click .export": "onExport",
 			"click .delete": "onDelete",
@@ -129,6 +141,9 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
 		onDrawArrow: function() {
 			evt.trigger("draw", "Arrow");
 		},
+		onComment: function() {
+			evt.trigger("comment");
+		},
 		onSave: function() {
 			evt.trigger("save");
 		},
@@ -148,6 +163,7 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
 			this.collection.on("add", this.addOne, this);
 			this.collection.on("remove", this.removeOne, this);
 			evt.on("draw", this.drawMode, this);
+			evt.on("comment", this.offDraw, this);
 			undoMan.register(this.collection);
 			this.render();
 		},
@@ -164,27 +180,30 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
 			new view({model: shape, paper: this.paper});
 			return this;
 		},
+		offDraw: function() {
+			this.$el.off("mousedown");
+		},
 		drawMode: function(type) {
+			console.log("draw mode on");
+
 			var svg = this.$('svg'),
 				that = this;
 
-			svg.off("mousedown");
-			svg.mouseup(function() {
-		        svg.off("mousemove");
+			this.$el.off("mousedown");
+			this.$el.mouseup(function() {
+		        that.$el.off("mousemove");
 		    });
 
-			svg.mousedown(function(e) {
-				var parentOffset = svg.offset(); 
+			this.$el.mousedown(function(e) {
+				var parentOffset = that.$el.offset(); 
 			  	var startX = e.pageX - parentOffset.left;
 			  	var startY = e.pageY - parentOffset.top;
-
-			  	console.log("color:", App.Models.Defaults.color);
 
 			  	var shape = new App.Models[type];
 			  	shape.start(startX, startY);
 			  	that.collection.add(shape);
 
-				svg.mousemove(function(e) {
+				that.$el.mousemove(function(e) {
 				  	shape.move(e.pageX - parentOffset.left, e.pageY - parentOffset.top);
 			    });
 			});
@@ -317,6 +336,118 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
 				this.shape[0].remove();
 				this.shape[1].remove();
 			}
+		}
+	});
+
+	App.Views.Threads = Backbone.View.extend({
+		el: "#drawing-board",
+		initialize: function() {
+			var imageJson = module.config().image;
+			this.$('#threads').css({
+				width: imageJson.width,
+				height: imageJson.height
+			});
+
+			evt.on("comment", this.onComment, this);
+			evt.on("draw", this.offComment, this);
+
+			this.collection.on("add", this.addOne, this);
+		},
+		render: function() {
+			this.collection.each(function(thread) {
+				this.addOne(thread);
+			}, this);
+		},
+		addOne: function(thread) {
+			this.$('#threads').append( new App.Views.Thread({ model: thread }).render().el );
+		},
+		offComment: function() {
+			console.log("off comments");
+			this.$el.off("click");
+		},
+		onComment: function() {
+			var $el = this.$el,
+				that = this;
+
+			$el.click(function(e) {
+				console.log("comment");
+				var parentOffset = $el.offset(); 
+			  	var x = e.pageX - parentOffset.left;
+			  	var y = e.pageY - parentOffset.top;
+
+			  	var thread = new App.Models.Thread({
+			  		x: x,
+			  		y: y,
+			  		image_id: module.config().image.id
+			  	});
+
+			  	that.collection.add(thread);
+			});
+		}
+
+	});
+
+	App.Views.Thread = Backbone.View.extend({
+		className: "thread",
+		template: "<ul class='comments'></ul><textarea placeholder='Write a comment...'></textarea>" + 
+			"<button type='button' class='btn btn-primary'>Post</button>",
+		events: {
+			"click": "onClick",
+			'click button': "onPost",
+		},
+		onClick: function(e) {
+			e.stopImmediatePropagation();
+		},
+		onPost: function() {
+			var that = this;
+
+			var comment = new App.Models.Comment({
+				'body': this.$('textarea').val(),
+				'thread_id': this.model.get("id")
+			});
+
+			var comments = this.model.get("comments");
+			comments.push(comment);
+			this.model.set("comments", comments);
+
+			console.log("saving thread: ", this.model.get("comments"));
+
+			if (this.model.isNew()) {
+				this.model.save(null, { success: function(thread) {
+					that.$('.comments').append( new App.Views.Comment({ model: comment }).render().el );
+					that.$('textarea').val('');
+				}});
+			} else {
+				comment.save(null, { wait: true, 
+					success: function (comment) {
+						that.$('.comments').append( new App.Views.Comment({ model: comment }).render().el );
+						that.$('textarea').val('');
+					}
+				});
+			}
+		},
+		render: function() {
+			console.log("render thread", this.model);
+			this.$el.html( _.template(this.template) );
+			this.$el.css({
+				"left": this.model.get("x") + "px",
+				"top": this.model.get("y") + "px"
+			});
+
+			var comments = this.model.get("comments");
+			var that = this;
+			$.each(comments, function(index, comment) {
+				that.$('.comments').append( new App.Views.Comment({ model: comment }).render().el );
+			});
+			return this;
+		}
+	});
+
+	App.Views.Comment = Backbone.View.extend({
+		tagName: "li",
+		render: function() {
+			this.$el.html( this.model.get("body") );
+			return this;
 		}
 	});
 
