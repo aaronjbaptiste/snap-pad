@@ -37,27 +37,30 @@ Make sure your web document root allows read and write access to apache. See [La
 Todo
 -----
 
-* Redesign menu
-* comments - add to shapes
-* transform, move without selector arrow
-* undo transformations
+* Transform & Move
+* Undo transformations
+* Comments - add to shapes
+* Shadow on shapes so colours aren't lost
+* Drag and drop images
+* Paste image from clipboard
+* Export sets filename
 * xBrowser testing
 * Fix env, needs to load dist css/js on prod
-* Export sets filename
-* requirejs almond
-* Sort out requirejs not loading canvg stuff
+
+* Auto save on change
+* Auto update for new changes
 * Upload / save progress bar
 * Title
 * Created / modified date
 * Move / resize image
 * Fit to screen width / Zoom
-* Gravatar / fb, tw, gl integration for avatar
+
 * Share options - like no annotations? no comments? password
-* auto save on change
-* auto update for new changes
-* show who else is viewing - guest or known user, colour coded like google
-* shadow on shapes so colours aren't lost
-* get rid of circles?
+* Gravatar / fb, tw, gl integration for avatar
+* Show who else is viewing - guest or known user, colour coded like google
+
+* requirejs almond
+* Sort out requirejs not loading canvg stuff
 
 Questions?
 ----------

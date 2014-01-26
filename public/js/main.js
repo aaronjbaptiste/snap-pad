@@ -10,6 +10,7 @@ require.config({
 		"backbone.undo": "vendor/backbone.undo/Backbone.Undo",
 		"jquery.shortcut": "vendor/jquery.shortcut/jquery.Shortcut",
 		"spectrum": "vendor/spectrum/spectrum",
+		"bootstrap-js-dropdown": "vendor/bootstrap-js-dropdown/index"
 	},
 	shim: {
 		"underscore": {	
@@ -36,6 +37,9 @@ require.config({
 		"spectrum": {
 			deps: ["jquery"],
 			exports: "$"
+		},
+		"bootstrap-js-dropdown": {
+			deps: ["jquery"]
 		}
 	}
 });

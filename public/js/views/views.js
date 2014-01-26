@@ -1,5 +1,5 @@
 define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/models', 
-	'collections/collections', 'backbone.undo', 'jquery.shortcut', 'spectrum'], 
+	'collections/collections', 'backbone.undo', 'jquery.shortcut', 'spectrum', 'bootstrap-js-dropdown'], 
 	function(module, Backbone, Raphael) {
 
 	/* utility */
@@ -59,8 +59,8 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
 		},
 		render: function() {
 			console.log("render main");
-			this.$('header').addClass('toolbar');
-			this.$('header #toolbar').show();
+			this.$('header').addClass('editing');
+			this.$('header .toolbar').show();
 			this.canvas = new App.Views.Canvas({
 				collection: this.model.get("paperJson")
 			});
@@ -96,7 +96,7 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
 	});
 
 	App.Views.Toolbar = Backbone.View.extend({
-		el: "#toolbar",
+		el: ".toolbar",
 		events: {
 			"click .drawCircle": "onDrawCircle",
 			"click .drawSquare": "onDrawSquare",
@@ -125,24 +125,36 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
 			    }
 			});
 			
-			this.$('#stroke').on("change", function() {
-				App.Models.Defaults.stroke = $(this).val();
+			this.$('.sp-preview').append("<div class='caret' />");
+			this.$('.sp-replacer').addClass("btn");
+
+			this.$('.stroke .dropdown-menu a').on("click", function() {
+				App.Models.Defaults.stroke = $(this).data("width");
 			});
 		},
-		onDrawCircle: function() {
+		onDrawCircle: function(e) {
 			evt.trigger("draw", "Circle");
+			this.setSelected(e);
 		},
-		onDrawSquare: function() {
+		onDrawSquare: function(e) {
 			evt.trigger("draw", "Square");
+			this.setSelected(e);
 		},
-		onDrawFree: function() {
+		onDrawFree: function(e) {
 			evt.trigger("draw", "FreeDraw");
+			this.setSelected(e);
 		},
-		onDrawArrow: function() {
+		onDrawArrow: function(e) {
 			evt.trigger("draw", "Arrow");
+			this.setSelected(e);
 		},
-		onComment: function() {
+		onComment: function(e) {
 			evt.trigger("comment");
+			this.setSelected(e);
+		},
+		setSelected: function(e) {
+			this.$('.selected').removeClass("selected");
+			$(e.currentTarget).addClass("selected");
 		},
 		onSave: function() {
 			evt.trigger("save");

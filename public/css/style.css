@@ -7,7 +7,7 @@ html {
 }
 
 body {
-	background-color: #d83060;
+	background: #e97195;
 	min-width: 320px;
 	min-height: 370px;
 	margin: 0 0 50;
@@ -22,11 +22,7 @@ header {
 	min-height: 51px;
 }
 
-#toolbar {
-	display: none;
-}
-
-header.toolbar .branding {
+header.editing .branding {
 	float: left;
 }
 
@@ -39,28 +35,44 @@ header .branding {
 
 header #fixed-header {
 	position: fixed;
-	text-align: center;
-	width: 100%;
 	z-index: 100;
+	min-width: 494px;
+	right: 0;
 }
 
-header #toolbar {
-	background: #3498db;
+header .toolbar {
+	background: #71D2E9;
 	padding: 10px;
-	width: 75%;
-	margin-left: 180px;
-	max-width: 890px;
-	min-width: 421px;
+	width: auto;
+	float: right;
 	height: 51px;
+	display: none;
 }
 
-#toolbar > * {
-	width: 9%;
-	max-width: 90px;
-	min-width: 35px;
+header .controls {
+	margin-right: 20px;
+	margin-left: 20px;
 }
 
-#toolbar > .padding {
+.toolbar > div {
+	width: 34px;
+	height: 36px;
+	margin: 0 5px;
+	display: inline-block;
+	float: left;
+}
+
+.toolbar > div:hover, .stroke button:hover {
+	-webkit-filter: grayscale(1) brightness(30%); 
+}
+
+.toolbar .selected, .stroke .selected button {
+	border-bottom: 3px solid #127685;
+	padding-bottom: 4px;
+	height: 36px;
+}
+
+.toolbar > .padding {
 	width: 173px;
 	height: 1px;
 	float: left;
@@ -77,11 +89,11 @@ header #toolbar {
 
 a.logo, a.logo:visited {
 	text-decoration: none;
-	color: #000000;
+	color: #444444;
 }
 
 a.logo:hover {
-	color: #3498db;
+	color: #71D2E9;
 }
 
 .slogan {
@@ -143,11 +155,13 @@ a.logo:hover {
 .thread button {
 	margin-top: 10px;
 	width: 100%;
+	background-color: #71D2E9;
+	border-color: #71D2E9;
 }
 
 #main.container {
 	padding: 60px;
-	background-color: #d83060;
+	background: #e97195;
 }
 
 #drop-area {
@@ -158,8 +172,8 @@ a.logo:hover {
 	text-align: center;
 	font-size: 24px;
 	color: #ffffff;
-	background-color: #a6274b;
-	border: dashed 3px #43252d;
+	background-color: #D32057;
+	border: dashed 3px #7A1333;
 	display: table; 
 	padding: 10px;
 	cursor: pointer;
@@ -177,8 +191,8 @@ a.logo:hover {
 
 footer {
 	height: 50px;
-	background-color: #3498db;
-	color: #ffffff;
+	background-color: #71D2E9;
+	color: #127685;
 	text-align: center;
 	padding: 16px;
 	box-sizing: border-box;
@@ -190,9 +204,125 @@ footer {
     z-index: 100;
 }
 
-footer a, footer a:hover {
+.drawCircle {
+	background: url(../images/circle-outline-32.png) no-repeat;
+}
+
+.drawSquare {
+	background: url(../images/square-outline-32.png) no-repeat;
+}
+
+.drawFree {
+	background: url(../images/edit-6-32.png) no-repeat;
+}
+
+.drawArrow {
+	background: url(../images/arrow-19-32.png) no-repeat;
+}
+
+.comment {
+	background: url(../images/speech-bubble-32.png) no-repeat;
+}
+
+.save {
+	background: url(../images/checkmark-32.png) no-repeat;
+}
+
+.export {
+	background: url(../images/png-32.png) no-repeat;
+}
+
+.delete {
+	background: url(../images/delete-32.png) no-repeat;
+}
+
+.toolbar .stroke {
+	width: 40px;
+}
+
+.toolbar .stroke button.btn {
+	padding: 1px 4px;
+}
+
+.toolbar .sp-replacer {
+	width: 40px;
+}
+
+.toolbar > div.stroke:hover {
+	-webkit-filter: none;
+}
+
+.stroke .stroke-icon {
+	background: url(../images/line-width-32.png) no-repeat;
+	width: 24px;
+	height: 28px;
+}
+
+.stroke .dropdown-toggle {	
+	width: 44px;
+	height: 27px;
+	border: none;
+	margin: 1px 0;
+	background: none;
+}
+
+.toolbar .sp-replacer .caret {
+	margin: 13px 0 0 27px;
+}
+
+.caret {
+	border-top-color: #2b657e;
+}
+
+.toolbar .caret {
+	float: left;
+}
+
+.stroke .caret {
+	margin: -13px 0 0 29px;
+}
+
+.stroke .dropdown-menu, .stroke .dropdown-menu:hover {
+	min-width: 70px;
+	width: 70px;
+	text-align: left;
+	background: #ffffff; 
+}
+
+footer a {
 	text-decoration: none;
-	color: #ffffff;
+	color: #127685;
+}
+
+footer a:hover {
+	text-decoration: none;
+	color: #444444;
+}
+
+header.editing .toolbar .sp-dd {
+	display: none;
+}
+
+.toolbar .sp-dd {
+	display: none;
+}
+
+.toolbar .sp-replacer {
+	padding: 3px;
+	background: none;
+	border: none;
+	margin: 1px 0;
+}
+
+.toolbar .sp-preview, .toolbar .sp-preview-inner {
+	width: 25px;
+	height: 25px;
+	border: none;
+	background: none;
+}
+
+.toolbar .sp-preview-inner {
+	border: 2px solid #444;
 }
 
 @media only screen and (max-height : 600px) {
@@ -205,15 +335,23 @@ footer a, footer a:hover {
 	}
 }
 
-@media only screen and (max-width : 785px) {
-
-	header.toolbar #toolbar {
-		width: 100%;
-		margin-left: 0;
+@media only screen and (max-width : 707px) {
+	header.editing .toolbar {
+		margin-left: 0px;
 	}
 
-	header.toolbar .branding, header.toolbar #toolbar .sp-dd {
+	header.editing .controls {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+
+	header.editing .branding, header.editing .toolbar .sp-dd {
 		display: none;
 	}
+}
 
+@media only screen and (max-width : 507px) {
+	header #fixed-header {
+		left: 0;
+	}
 }
