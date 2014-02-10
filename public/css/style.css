@@ -36,7 +36,7 @@ header .branding {
 header #fixed-header {
 	position: fixed;
 	z-index: 100;
-	min-width: 494px;
+	min-width: 502px;
 	right: 0;
 }
 
@@ -83,7 +83,6 @@ header .controls {
 	position: relative;
 	margin: 0 24px;
 	font-size: 34px;
-	display: block;
 	font-family: 'Lobster', cursive;
 }
 
@@ -121,6 +120,8 @@ a.logo:hover {
 	left: 0;
 	top: 0;
 	z-index: 50;
+	visibility:hidden;
+	pointer-events: visible;
 }
 
 #drawing-board svg {
@@ -133,6 +134,7 @@ a.logo:hover {
 	display: block;
 	padding: 8px;
 	text-align: left;
+	visibility: visible;
 }
 
 .thread textarea {
@@ -172,7 +174,7 @@ a.logo:hover {
 	text-align: center;
 	font-size: 24px;
 	color: #ffffff;
-	background-color: #D32057;
+	background-color: #c75678;
 	border: dashed 3px #7A1333;
 	display: table; 
 	padding: 10px;
@@ -350,7 +352,7 @@ header.editing .toolbar .sp-dd {
 	}
 }
 
-@media only screen and (max-width : 507px) {
+@media only screen and (max-width : 515px) {
 	header #fixed-header {
 		left: 0;
 	}
