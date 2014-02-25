@@ -37,30 +37,17 @@ Make sure your web document root allows read and write access to apache. See [La
 Todo
 -----
 
-* Transform & Move
-* Undo transformations
+* Export sets filename (save.php?)
+* CMD Z for undo on mac?
 * Comments - add to shapes
-* Shadow on shapes so colours aren't lost
-* Drag and drop images
-* Paste image from clipboard
-* Export sets filename
-* xBrowser testing
-* Fix env, needs to load dist css/js on prod
-
+* Delete / rubber
 * Auto save on change
 * Auto update for new changes
 * Upload / save progress bar
-* Title
-* Created / modified date
-* Move / resize image
-* Fit to screen width / Zoom
-
-* Share options - like no annotations? no comments? password
-* Gravatar / fb, tw, gl integration for avatar
-* Show who else is viewing - guest or known user, colour coded like google
-
-* requirejs almond
-* Sort out requirejs not loading canvg stuff
+* Drag and drop images
+* Paste from clipboard images
+* Fix env, needs to load dist css/js on prod
+* xBrowser testing
 
 Questions?
 ----------

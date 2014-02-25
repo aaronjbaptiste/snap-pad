@@ -16,6 +16,7 @@
         <header>
           <div class="branding">
             <a class="logo" href="/">Snap Pad</a>
+            <a class="logo mobile" href="/">SP</a>
             @yield('slogan')
           </div>
   

@@ -38,12 +38,20 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
             evt.on("delete", this.delete, this);
             evt.on("export", this.export, this);
 
-            this.render();
-
             this.$('#drawing-board').css({
                 width: module.config().image.width,
                 height: module.config().image.height
+            })
+
+            this.render();
+
+            $('body,footer').css({
+                "min-width": module.config().image.width + "px",
             });
+
+            $('#page').css({
+                "min-height": (parseInt(module.config().image.height, 10) + 50) + "px",
+            })
 
             model.on("change:paperJson", function() {
                 console.log("changed");
@@ -58,7 +66,6 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
             // }, 3000);
         },
         render: function() {
-            console.log("render main");
             this.$('header').addClass('editing');
             this.$('header .toolbar').show();
             this.canvas = new App.Views.Canvas({
@@ -121,7 +128,6 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
                 ],
                 change: function(color) {
                     App.Models.Defaults.color = color.toHexString();
-                    console.log(App.Models.Defaults.color);
                 }
             });
             
@@ -180,56 +186,25 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
             this.render();
         },
         render: function() {
-            console.log("render");
             this.collection.each(function(shape) {
-                this.addOne(shape);
+                var view = this.addOne(shape, true);
             }, this);
             return this;
         },
         addOne: function(shape) {
-            console.log("add one");
             var view = App.Views[shape.get("type")];
             var shapeInstance = new view({model: shape, paper: this.paper});
-            this.addHandles(shapeInstance);
-            return this;
-        },
-        addHandles: function(shape) {
-
-            var hoverIn = function() {
-                this.attr({"stroke": "#444444"});
-            };
-            
-            var hoverOut = function() {
-                this.attr({"stroke": shape.model.get("color")});
-            };
-            
-            shape.el.hover(hoverIn, hoverOut);
-
-            var move = function (dx, dy) {
-                var newX = shape.model.get("x") + dx,
-                    newY = shape.model.get("y") + dy;
-                this.attr({x: newX, y: newY});
-            };
-
-            var up = function() {
-                shape.model.set({x: this.attr("x"), y: this.attr("y")});
-            }
-
-            shape.el.drag(move, null, up);
+            return shapeInstance;
         },
         offDraw: function() {
             this.$el.off("mousedown");
         },
         drawMode: function(type) {
-            console.log("draw mode on");
 
             var svg = this.$('svg'),
                 that = this;
 
             this.$el.off("mousedown");
-            this.$el.mouseup(function() {
-                that.$el.off("mousemove");
-            });
 
             this.$el.mousedown(function(e) {
                 var parentOffset = that.$el.offset(); 
@@ -239,6 +214,11 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
                 var shape = new App.Models[type];
                 shape.start(startX, startY);
                 that.collection.add(shape);
+
+                that.$el.mouseup(function() {
+                    that.$el.off("mousemove");
+                    that.$el.off("mouseup");
+                });
 
                 that.$el.mousemove(function(e) {
                     shape.move(e.pageX - parentOffset.left, e.pageY - parentOffset.top);
@@ -339,7 +319,7 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
                 "stroke-width": model.get('stroke')
             });
             return this;
-        },
+        }
     });
 
     App.Views.Arrow = Backbone.View.extend({
@@ -399,7 +379,6 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
             this.$('#threads').append( new App.Views.Thread({ model: thread }).render().el );
         },
         offComment: function() {
-            console.log("off comments");
             this.$el.off("click");
         },
         onComment: function() {
@@ -407,7 +386,6 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
                 that = this;
 
             $el.click(function(e) {
-                console.log("comment");
                 var parentOffset = $el.offset(); 
                 var x = e.pageX - parentOffset.left;
                 var y = e.pageY - parentOffset.top;
@@ -447,8 +425,6 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
             comments.push(comment);
             this.model.set("comments", comments);
 
-            console.log("saving thread: ", this.model.get("comments"));
-
             if (this.model.isNew()) {
                 this.model.save(null, { success: function(thread) {
                     that.$('.comments').append( new App.Views.Comment({ model: comment }).render().el );
@@ -464,7 +440,6 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
             }
         },
         render: function() {
-            console.log("render thread", this.model);
             this.$el.html( _.template(this.template) );
             this.$el.css({
                 "left": this.model.get("x") + "px",

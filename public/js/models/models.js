@@ -84,7 +84,7 @@ define(['module', 'backbone'], function(module, Backbone) {
                 width: 1,
                 height: 1,
                 stroke: App.Models.Defaults.stroke,
-                color: App.Models.Defaults.color
+                color: App.Models.Defaults.color,
             };
         },
         start: function(x, y) {
@@ -216,7 +216,7 @@ define(['module', 'backbone'], function(module, Backbone) {
             x: 0,
             y: 0,
             width: 0,
-            height: 0
+            height: 0,
         }
     });
 

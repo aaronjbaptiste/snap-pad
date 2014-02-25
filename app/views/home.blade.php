@@ -9,7 +9,7 @@
         {{ Form::open(['route' => 'image.store', 'files' => true, 'class' => 'new-image']) }}
 
             <div id="drop-area">
-                <span>Click to upload, paste or drop an image</span>
+                <span>Click to upload an image</span>
             </div>
 
             {{ Form::file('image', ['id' => 'file-upload-button']) }}

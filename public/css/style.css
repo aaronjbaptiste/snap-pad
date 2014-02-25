@@ -327,13 +327,13 @@ header.editing .toolbar .sp-dd {
 	border: 2px solid #444;
 }
 
+.mobile {
+	display: none;
+}
+
 @media only screen and (max-height : 600px) {
 	#drop-area {
 		height: 240px;
-	}
-
-	footer {
-		position: static;
 	}
 }
 
@@ -347,13 +347,26 @@ header.editing .toolbar .sp-dd {
 		margin-right: 10px;
 	}
 
-	header.editing .branding, header.editing .toolbar .sp-dd {
+	header.editing .toolbar .sp-dd {
 		display: none;
+	}
+
+	header.editing .branding .logo {
+		display: none;
+	}
+
+	header.editing .mobile.logo {
+		display: block;
+		width: 42px;
 	}
 }
 
-@media only screen and (max-width : 515px) {
+@media only screen and (max-width : 585px) {
 	header #fixed-header {
 		left: 0;
+	}
+
+	header .branding {
+		display: none;
 	}
 }
