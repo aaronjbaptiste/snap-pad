@@ -1,7 +1,7 @@
 snap-pad
 ========
 
-Annotate and share images with anyone in real-time
+Super simple way to annotate and share images or screenshots
 
 How to build
 ------------
