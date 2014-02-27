@@ -15,6 +15,32 @@ Route::put('image/{hash}',
 Route::delete('image/{hash}', 
     ['as' => 'image.delete', 'uses' => 'ImageController@destroy']);
 
+Route::post('flashcanvas/save', function()
+{
+	//TODO redo in laravel terms
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Force download
+        $type = 'application/octet-stream';
+
+        //TODO set to filename
+        $dis = 'attachment; filename="SnappadExport.png"';
+
+        if (isset($_POST['dataurl'])) {
+            // Decode the base64-encoded data
+            $data = $_POST['dataurl'];
+            $data = substr($data, strpos($data, ',') + 1);
+            $data = base64_decode($data);
+        } else {
+            // Output the raw data
+            $data = readfile('php://input');
+        }
+
+        $response = Response::make($data, 200);
+        $response->header('Content-Type', $type);
+        $response->header('Content-Disposition', $dis);
+        return $response;
+    }
+});
 
 // Route::get('thread', 
 //     ['as' => 'thread', 'uses' => 'ThreadController@index']);

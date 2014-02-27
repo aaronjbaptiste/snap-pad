@@ -7,11 +7,11 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
     var undoMan = new Backbone.UndoManager();
     Backbone.UndoManager.removeUndoType("change");
 
-    $.Shortcut.on("ctrl + Z", function (e) {
+    $.Shortcut.on(["ctrl + Z", "meta + Z"], function (e) {
         undoMan.undo(true);
     });
 
-    $.Shortcut.on("ctrl + shift + Z", function (e) {
+    $.Shortcut.on(["ctrl + shift + Z", "meta + shift + Z", "meta + Y", "ctrl + Y"], function (e) {
         undoMan.redo(true);
     });
 

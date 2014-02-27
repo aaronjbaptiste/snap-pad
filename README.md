@@ -38,7 +38,6 @@ Todo
 -----
 
 * Export sets filename (save.php?)
-* CMD Z for undo on mac?
 * Comments - add to shapes
 * Delete / rubber
 * Auto save on change

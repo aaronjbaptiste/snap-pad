@@ -358,10 +358,11 @@ header.editing .toolbar .sp-dd {
 	header.editing .mobile.logo {
 		display: block;
 		width: 42px;
+		margin: 0 10px;
 	}
 }
 
-@media only screen and (max-width : 585px) {
+@media only screen and (max-width : 570px) {
 	header #fixed-header {
 		left: 0;
 	}
