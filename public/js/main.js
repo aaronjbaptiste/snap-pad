@@ -10,7 +10,8 @@ require.config({
 		"backbone.undo": "vendor/backbone.undo/Backbone.Undo",
 		"jquery.shortcut": "vendor/jquery.shortcut/jquery.Shortcut",
 		"spectrum": "vendor/spectrum/spectrum",
-		"bootstrap-js-dropdown": "vendor/bootstrap-js-dropdown/index"
+		"bootstrap-js-dropdown": "vendor/bootstrap-js-dropdown/index",
+		"backbone-associations": "vendor/backbone-associations/backbone-associations"
 	},
 	shim: {
 		"underscore": {	

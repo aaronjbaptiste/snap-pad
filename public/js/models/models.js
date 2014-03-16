@@ -1,4 +1,4 @@
-define(['module', 'backbone'], function(module, Backbone) {
+define(['module', 'backbone','backbone-associations'], function(module, Backbone) {
 
     App.Models.Defaults = {
         stroke: 3,
@@ -10,11 +10,13 @@ define(['module', 'backbone'], function(module, Backbone) {
         idAttribute: 'hash',
         initialize: function(options) {
             this.set("paperJson", new App.Collections.Canvas(options.paperJson));
+            this.set("threads", new App.Collections.Threads(options.threads));
         },
         parse: function(response) {
-            var canvas = this.get("paperJson");
-            console.log("set canvas");
-            canvas.set(response.paperJson);
+            var canvas = this.get("paperJson"),
+                threads = this.get("threads");
+            canvas.set(response.paperJson, {remove:false});
+            threads.set(response.threads, {remove:false});
         }
     });
 
@@ -33,7 +35,6 @@ define(['module', 'backbone'], function(module, Backbone) {
             };
         },
         start: function(x, y) {
-            console.log(App.Models.Defaults.color);
             this.set({
                 pivotX: x,
                 pivotY: y,
@@ -180,32 +181,29 @@ define(['module', 'backbone'], function(module, Backbone) {
         }
     });
 
-    App.Models.Thread = Backbone.Model.extend({
+    App.Models.Comment = Backbone.Model.extend({
+        url: "comment",
+        defaults: {
+            body: ""
+        }
+    });
+
+    App.Models.Thread = Backbone.AssociatedModel.extend({
         url: "thread",
+        relations: [
+            {
+                type: Backbone.Many,
+                key: 'comments',
+                relatedModel: App.Models.Comment
+            }
+        ],
         defaults: function() {
             return {
                 x: 1,
                 y: 1,
                 color: App.Models.Defaults.color,
-                comments: []
+                comments: [],
             };
-        },
-        initialize: function(data) {
-            var comments = this.get("comments");
-            var newComments = [];
-            var that = this;
-            $.each(comments, function(index, comment) {
-                console.log(comment);
-                newComments.push( new App.Models.Comment(comment) );
-            });
-            this.set("comments", newComments);
-        }
-    });
-
-    App.Models.Comment = Backbone.Model.extend({
-        url: "comment",
-        defaults: {
-            body: ""
         }
     });
 

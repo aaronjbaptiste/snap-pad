@@ -41,7 +41,7 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
             this.$('#drawing-board').css({
                 width: module.config().image.width,
                 height: module.config().image.height
-            })
+            });
 
             this.render();
 
@@ -53,23 +53,18 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
                 "min-height": (parseInt(module.config().image.height, 10) + 50) + "px",
             })
 
-            model.on("change:paperJson", function() {
-                console.log("changed");
-            }, this);
-
-            this.threads = new App.Views.Threads({ 
-                collection: new App.Collections.Threads(module.config().image.threads)
-            }).render();
-
-            // setInterval(function() {
-            // model.fetch();
-            // }, 3000);
+            setInterval(function() {
+                model.fetch({remove: false});
+            }, 3000);
         },
         render: function() {
             this.$('header').addClass('editing');
             this.$('header .toolbar').show();
             this.canvas = new App.Views.Canvas({
                 collection: this.model.get("paperJson")
+            });
+            this.threads = new App.Views.Threads({ 
+                collection: this.model.get("threads")
             });
             this.toolbar = new App.Views.Toolbar();
             undoMan.startTracking();
@@ -97,8 +92,6 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
                     }, 100);
                 }
             });
-
-            //FIXME save.php is failing? I think that used to rename it
         }
     });
 
@@ -179,7 +172,6 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
             var imageJson = module.config().image;
             this.paper = Raphael("drawing-board", imageJson.width, imageJson.height);
             this.collection.on("add", this.addOne, this);
-            this.collection.on("remove", this.removeOne, this);
             evt.on("draw", this.drawMode, this);
             evt.on("comment", this.offDraw, this);
             undoMan.register(this.collection);
@@ -194,6 +186,7 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
         addOne: function(shape) {
             var view = App.Views[shape.get("type")];
             var shapeInstance = new view({model: shape, paper: this.paper});
+            shape.set("id", shapeInstance.el.id);
             return shapeInstance;
         },
         offDraw: function() {
@@ -218,6 +211,7 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
                 that.$el.mouseup(function() {
                     that.$el.off("mousemove");
                     that.$el.off("mouseup");
+                    evt.trigger("save");
                 });
 
                 that.$el.mousemove(function(e) {
@@ -369,6 +363,7 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
             evt.on("draw", this.offComment, this);
 
             this.collection.on("add", this.addOne, this);
+            this.render();
         },
         render: function() {
             this.collection.each(function(thread) {
@@ -410,6 +405,12 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
             "click": "onClick",
             'click button': "onPost",
         },
+        initialize: function() {
+            this.model.on("add:comments", this.addOne, this);
+        },
+        addOne: function(data) {
+            this.render();
+        },
         onClick: function(e) {
             e.stopImmediatePropagation();
         },
@@ -426,17 +427,9 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
             this.model.set("comments", comments);
 
             if (this.model.isNew()) {
-                this.model.save(null, { success: function(thread) {
-                    that.$('.comments').append( new App.Views.Comment({ model: comment }).render().el );
-                    that.$('textarea').val('');
-                }});
+                this.model.save();
             } else {
-                comment.save(null, { wait: true, 
-                    success: function (comment) {
-                        that.$('.comments').append( new App.Views.Comment({ model: comment }).render().el );
-                        that.$('textarea').val('');
-                    }
-                });
+                comment.save();
             }
         },
         render: function() {
@@ -448,9 +441,11 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
 
             var comments = this.model.get("comments");
             var that = this;
-            $.each(comments, function(index, comment) {
+
+            comments.each(function(comment) {
                 that.$('.comments').append( new App.Views.Comment({ model: comment }).render().el );
             });
+
             return this;
         }
     });

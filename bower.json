@@ -15,6 +15,7 @@
 		"backbone.undo": "https://github.com/osartun/Backbone.Undo.js.git",
 		"jquery.shortcut": "https://github.com/osartun/jQuery.Shortcut.js.git",
 		"spectrum": "latest",
-		"bootstrap-js-dropdown": "latest"
+		"bootstrap-js-dropdown": "latest",
+		"backbone-associations": "latest"
 	}
 }
