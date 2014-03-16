@@ -40,7 +40,6 @@ Todo
 * Saving... Saved! notification (instead of current save button)
 * Comments - add to shapes? Visuals
 * Fix env, needs to load dist css/js on prod
-* Check README.md
 * xBrowser testing
 * Pictures and json not stored in public
 * Code cleanup
