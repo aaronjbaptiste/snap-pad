@@ -37,11 +37,11 @@ Make sure your web document root allows read and write access for apache. See [L
 Todo
 -----
 
-* Saving... Saved! notification (instead of current save button)
 * Comments - add to shapes? Visuals
 * Fix env, needs to load dist css/js on prod
 * xBrowser testing
 * Pictures and json not stored in public
+* Undo Redo broken
 * Code cleanup
 
 Questions?

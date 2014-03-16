@@ -227,7 +227,15 @@ footer {
 }
 
 .save {
-	background: url(../images/checkmark-32.png) no-repeat;
+	/*background: url(../images/checkmark-32.png) no-repeat;*/
+	width: 39px !important;
+	margin-left: 0 !important;
+	padding: 7px 0;
+	font-size: 13px;
+}
+
+.toolbar > div.save:hover {
+	-webkit-filter: none;
 }
 
 .export {

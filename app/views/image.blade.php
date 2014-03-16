@@ -3,7 +3,7 @@
 @section('toolbar')
     <div id="fixed-header">
       <ul class="toolbar controls">
-          <div class="save btn"></div>
+          <div class="save btn">Saved</div>
           <div class="export btn"></div>
           <div class="delete btn"></div>
       </ul>

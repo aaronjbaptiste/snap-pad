@@ -28,6 +28,7 @@ class ImageController extends BaseController {
 	public function update($hash)
 	{
 		Image::savePaper($hash, json_encode(Input::get('paperJson'), JSON_NUMERIC_CHECK) );
+		return Response::json("saved", 200);
 	}
 
 	public function destroy($hash)

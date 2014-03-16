@@ -7,13 +7,13 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
     var undoMan = new Backbone.UndoManager();
     Backbone.UndoManager.removeUndoType("change");
 
-    $.Shortcut.on(["ctrl + Z", "meta + Z"], function (e) {
-        undoMan.undo(true);
-    });
+    // $.Shortcut.on(["ctrl + Z", "meta + Z"], function (e) {
+    //     undoMan.undo(true);
+    // });
 
-    $.Shortcut.on(["ctrl + shift + Z", "meta + shift + Z", "meta + Y", "ctrl + Y"], function (e) {
-        undoMan.redo(true);
-    });
+    // $.Shortcut.on(["ctrl + shift + Z", "meta + shift + Z", "meta + Y", "ctrl + Y"], function (e) {
+    //     undoMan.redo(true);
+    // });
 
     Raphael.fn.arrow = function (x1, y1, x2, y2, asize, strokeWidth, color) {
         strokeWidth = typeof strokeWidth !== 'undefined' ? strokeWidth : 1;
@@ -34,7 +34,7 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
         initialize: function() {
             var model = this.model = new App.Models.Main(module.config().image);
 
-            evt.on("save", model.save, model);
+            evt.on("save", this.doSave, this);
             evt.on("delete", this.delete, this);
             evt.on("export", this.export, this);
 
@@ -56,6 +56,13 @@ define(['module', 'backbone.raphael', 'raphael', 'raphael.export', 'models/model
             setInterval(function() {
                 model.fetch({remove: false});
             }, 3000);
+        },
+        doSave: function() {
+            var saveText = this.$('.save');
+            saveText.text("Saving");
+            this.model.save(null, {wait: true, success: function () {
+                saveText.text("Saved");
+            }});
         },
         render: function() {
             this.$('header').addClass('editing');
