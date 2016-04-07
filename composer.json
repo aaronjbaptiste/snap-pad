@@ -4,7 +4,7 @@
 	"keywords": ["framework", "laravel"],
 	"require": {
 		"laravel/framework": "4.0.*",
-		"mitch/hashids": "dev-master"
+		"mitch/hashids": "1.x"
 	},
 	"require-dev": {
 		"way/generators": "1.0.*@dev"

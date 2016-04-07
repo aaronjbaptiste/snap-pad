@@ -1,11 +1,6 @@
 <?php
 
 return array(
-
-	'salt'     => Config::get('app.key'),
-
-	'length'   => 6,
-
+	'length'   => 4,
 	'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
-
 );

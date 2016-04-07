@@ -3,7 +3,7 @@
 	"version": "0.0.2",
 	"dependencies": {
 		"jquery": "1.10.2",
-		"backbone": "latest",
+		"backbone": "1.1.1",
 		"underscore": "latest",
 		"requirejs": "latest",
 		"raphael": "latest",

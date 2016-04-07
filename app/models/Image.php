@@ -15,7 +15,7 @@ class Image extends BaseModel {
         parent::boot();
 
         static::created(function($image) {
-            $image->hash = Hashids::encrypt($image->id);
+            $image->hash = Hashids::encode($image->id);
             $image->save();
         });
 
